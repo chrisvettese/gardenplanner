@@ -5,7 +5,7 @@ import { createEmptyPlan } from '../types';
 export const DEFAULT_CELL_COLOR = '#d7ecc8';
 export const DEFAULT_NOTE_COLOR = '#fff8d6';
 export const DEFAULT_CELL_FONT_SIZE = 11;
-export const MIN_CELL_FONT_SIZE = 6;
+export const MIN_CELL_FONT_SIZE = 4;
 export const MAX_CELL_FONT_SIZE = 28;
 const MAX_RECENT_COLORS = 10;
 

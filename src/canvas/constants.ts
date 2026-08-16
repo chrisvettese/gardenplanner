@@ -2,7 +2,7 @@
 export const CELL_SIZE = 56;
 
 export const MIN_SCALE = 0.2;
-export const MAX_SCALE = 3;
+export const MAX_SCALE = 6;
 
 /** Below this zoom level, grid cells are too small to reliably click on, so
  * clicking empty space just pans/deselects instead of adding a cell. */
