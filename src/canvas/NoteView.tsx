@@ -41,7 +41,12 @@ export default function NoteView({ note, selected, scale, onSelect, onMove }: No
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
     >
-      <div className="gp-note__text">{note.text || 'Note'}</div>
+      {note.image && <img src={note.image} alt="" className="gp-note__image" draggable={false} />}
+      {(note.text || !note.image) && (
+        <div className={`gp-note__text${note.image ? ' gp-note__text--caption' : ''}`}>
+          {note.text || (note.image ? '' : 'Note')}
+        </div>
+      )}
     </div>
   );
 }

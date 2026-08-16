@@ -4,6 +4,8 @@ import GardenCanvas from './canvas/GardenCanvas';
 import { useGardenPlan } from './state/useGardenPlan';
 import { CELL_SIZE, MAX_SCALE, MIN_SCALE, type Viewport } from './canvas/constants';
 import { openPlanFile, savePlan, savePlanAs, type PlanFileHandle } from './io/fileIO';
+import { getImageFileFromClipboard, processImageFile } from './io/clipboardImage';
+import { registerImageBlob, releaseImageBlob, resetImageAssets, type ImageAssets } from './io/imageAssets';
 import type { Cell } from './types';
 import './App.css';
 
@@ -38,6 +40,10 @@ export default function App() {
   const [fileName, setFileName] = useState<string | null>(null);
   const fileHandleRef = useRef(fileHandle);
   fileHandleRef.current = fileHandle;
+  // Pasted-image blobs, keyed by the blob: URL used as a note's `image`
+  // field. Not React state — nothing here needs to trigger a re-render on
+  // its own, it just needs to survive across renders. See io/imageAssets.ts.
+  const assetsRef = useRef<ImageAssets>(new Map());
 
   // Warn on tab close/reload if there are unsaved changes — the JSON file
   // is the only persistence, there's no server/autosave to fall back on.
@@ -58,6 +64,7 @@ export default function App() {
 
   const handleNew = useCallback(() => {
     if (!confirmDiscardIfDirty()) return;
+    resetImageAssets(assetsRef.current);
     gp.newPlan();
     setFileHandle(null);
     setFileName(null);
@@ -68,6 +75,8 @@ export default function App() {
     if (!confirmDiscardIfDirty()) return;
     const result = await openPlanFile();
     if (!result) return;
+    resetImageAssets(assetsRef.current);
+    assetsRef.current = result.assets;
     gp.loadPlan(result.plan);
     setFileHandle(result.handle);
     setFileName(result.fileName);
@@ -75,7 +84,7 @@ export default function App() {
   }, [confirmDiscardIfDirty, gp]);
 
   const handleSave = useCallback(async () => {
-    const result = await savePlan(gp.plan, fileHandleRef.current);
+    const result = await savePlan(gp.plan, assetsRef.current, fileHandleRef.current);
     if (!result.saved) return;
     setFileHandle(result.handle);
     setFileName(result.fileName);
@@ -83,7 +92,7 @@ export default function App() {
   }, [gp]);
 
   const handleSaveAs = useCallback(async () => {
-    const result = await savePlanAs(gp.plan);
+    const result = await savePlanAs(gp.plan, assetsRef.current);
     if (!result.saved) return;
     setFileHandle(result.handle);
     setFileName(result.fileName);
@@ -95,6 +104,41 @@ export default function App() {
     const worldX = (window.innerWidth / 2 - viewport.offsetX) / viewport.scale + jitter();
     const worldY = ((window.innerHeight - TOOLBAR_HEIGHT) / 2 - viewport.offsetY) / viewport.scale + jitter();
     gp.addNote(Math.round(worldX), Math.round(worldY));
+  }, [gp, viewport]);
+
+  const handleDeleteNote = useCallback(
+    (id: string) => {
+      const note = gp.plan.notes.find((n) => n.id === id);
+      if (note?.image) releaseImageBlob(assetsRef.current, note.image);
+      gp.deleteNote(id);
+    },
+    [gp],
+  );
+
+  // Paste an image (Ctrl+V) straight from the clipboard as a new note,
+  // centered on the current view. Ignored while typing in a text field so
+  // normal text pasting there isn't disturbed.
+  useEffect(() => {
+    function onPaste(e: ClipboardEvent) {
+      const tag = (document.activeElement?.tagName ?? '').toLowerCase();
+      if (tag === 'input' || tag === 'textarea') return;
+      const file = getImageFileFromClipboard(e);
+      if (!file) return;
+      e.preventDefault();
+      processImageFile(file)
+        .then(({ blob, width, height }) => {
+          const url = registerImageBlob(assetsRef.current, blob);
+          const worldCenterX = (window.innerWidth / 2 - viewport.offsetX) / viewport.scale;
+          const worldCenterY = ((window.innerHeight - TOOLBAR_HEIGHT) / 2 - viewport.offsetY) / viewport.scale;
+          gp.addNote(Math.round(worldCenterX - width / 2), Math.round(worldCenterY - height / 2), { width, height, image: url });
+        })
+        .catch((err) => {
+          console.error(err);
+          window.alert('Could not paste that image.');
+        });
+    }
+    window.addEventListener('paste', onPaste);
+    return () => window.removeEventListener('paste', onPaste);
   }, [gp, viewport]);
 
   const zoomBy = useCallback(
@@ -137,7 +181,7 @@ export default function App() {
         onUpdateCell={gp.updateCell}
         onDeleteCell={gp.deleteCell}
         onUpdateNote={gp.updateNote}
-        onDeleteNote={gp.deleteNote}
+        onDeleteNote={handleDeleteNote}
         onSelect={gp.select}
       />
     </div>

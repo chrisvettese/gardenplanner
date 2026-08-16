@@ -1,6 +1,8 @@
-import type { Cell, GardenPlan } from '../types';
+import { strFromU8, strToU8, unzipSync, zipSync } from 'fflate';
+import type { Cell, GardenPlan, Note } from '../types';
 import { DEFAULT_CELL_FONT_SIZE } from '../state/useGardenPlan';
 import { MAX_PLANTS_PER_CELL } from '../plants/catalog';
+import type { ImageAssets } from './imageAssets';
 
 /** Minimal shape of the File System Access API handle we rely on.
  *  Typed loosely so we don't need to pull in a types package just for
@@ -17,6 +19,9 @@ export interface SaveResult {
   /** false only when the user cancelled a save/open dialog. */
   saved: boolean;
 }
+
+const PLAN_ENTRY = 'plan.json';
+const FILE_EXTENSION = '.gardenplan';
 
 function fsAccessSupported(): boolean {
   return typeof window !== 'undefined' && typeof (window as any).showOpenFilePicker === 'function';
@@ -42,18 +47,77 @@ export function parsePlan(data: unknown): GardenPlan {
   };
 }
 
+function extensionFor(mimeType: string): string {
+  return mimeType === 'image/png' ? 'png' : 'jpg';
+}
+
+/** Packs the plan + any pasted images into a single zip archive (given a
+ * custom extension so it reads as this app's own file type, the same trick
+ * .docx/.pptx use). Image note fields go from a live blob: URL to a
+ * relative path inside the archive. */
+async function buildArchive(plan: GardenPlan, assets: ImageAssets): Promise<Uint8Array> {
+  const files: Record<string, Uint8Array> = {};
+
+  const notes: Note[] = [];
+  for (const note of plan.notes) {
+    if (note.image && assets.has(note.image)) {
+      const blob = assets.get(note.image)!;
+      const path = `images/${note.id}.${extensionFor(blob.type)}`;
+      files[path] = new Uint8Array(await blob.arrayBuffer());
+      notes.push({ ...note, image: path });
+    } else {
+      notes.push(note);
+    }
+  }
+
+  files[PLAN_ENTRY] = strToU8(JSON.stringify({ ...plan, notes }, null, 2));
+  return zipSync(files);
+}
+
+/** Unpacks an archive built by buildArchive, hydrating each referenced
+ * image into a fresh blob: URL registered in `assets` for immediate use. */
+function parseArchive(bytes: Uint8Array): { plan: GardenPlan; assets: ImageAssets } {
+  const files = unzipSync(bytes);
+  const planEntry = files[PLAN_ENTRY];
+  if (!planEntry) throw new Error('Not a valid garden plan file.');
+
+  const plan = parsePlan(JSON.parse(strFromU8(planEntry)));
+  const assets: ImageAssets = new Map();
+  const notes = plan.notes.map((note) => {
+    if (note.image && files[note.image]) {
+      const blob = new Blob([files[note.image] as BlobPart], { type: note.image.endsWith('.png') ? 'image/png' : 'image/jpeg' });
+      const url = URL.createObjectURL(blob);
+      assets.set(url, blob);
+      return { ...note, image: url };
+    }
+    return { ...note, image: undefined };
+  });
+
+  return { plan: { ...plan, notes }, assets };
+}
+
+/** Parses file bytes as a .gardenplan archive, falling back to treating them
+ * as a plain-JSON plan (no images) from before this format existed. */
+function parseFileBytes(bytes: Uint8Array): { plan: GardenPlan; assets: ImageAssets } {
+  try {
+    return parseArchive(bytes);
+  } catch {
+    return { plan: parsePlan(JSON.parse(strFromU8(bytes))), assets: new Map() };
+  }
+}
+
 const PICKER_OPTIONS = {
-  types: [{ description: 'Garden plan', accept: { 'application/json': ['.json'] } }],
+  types: [{ description: 'Garden plan', accept: { 'application/zip': [FILE_EXTENSION] } }],
 };
 
 /** Opens a plan file. Returns null if the user cancelled. */
-export async function openPlanFile(): Promise<{ plan: GardenPlan; handle: PlanFileHandle | null; fileName: string } | null> {
+export async function openPlanFile(): Promise<{ plan: GardenPlan; handle: PlanFileHandle | null; fileName: string; assets: ImageAssets } | null> {
   if (fsAccessSupported()) {
     try {
       const [handle] = await (window as any).showOpenFilePicker(PICKER_OPTIONS);
       const file = await handle.getFile();
-      const plan = parsePlan(JSON.parse(await file.text()));
-      return { plan, handle, fileName: handle.name };
+      const { plan, assets } = parseFileBytes(new Uint8Array(await file.arrayBuffer()));
+      return { plan, handle, fileName: handle.name, assets };
     } catch (err) {
       if ((err as DOMException)?.name === 'AbortError') return null;
       throw err;
@@ -62,11 +126,11 @@ export async function openPlanFile(): Promise<{ plan: GardenPlan; handle: PlanFi
   return openPlanFileFallback();
 }
 
-function openPlanFileFallback(): Promise<{ plan: GardenPlan; handle: null; fileName: string } | null> {
+function openPlanFileFallback(): Promise<{ plan: GardenPlan; handle: null; fileName: string; assets: ImageAssets } | null> {
   return new Promise((resolve, reject) => {
     const input = document.createElement('input');
     input.type = 'file';
-    input.accept = 'application/json,.json';
+    input.accept = `${FILE_EXTENSION},application/zip,application/json`;
     input.onchange = () => {
       const file = input.files?.[0];
       if (!file) {
@@ -74,8 +138,11 @@ function openPlanFileFallback(): Promise<{ plan: GardenPlan; handle: null; fileN
         return;
       }
       file
-        .text()
-        .then((text) => resolve({ plan: parsePlan(JSON.parse(text)), handle: null, fileName: file.name }))
+        .arrayBuffer()
+        .then((buf) => {
+          const { plan, assets } = parseFileBytes(new Uint8Array(buf));
+          resolve({ plan, handle: null, fileName: file.name, assets });
+        })
         .catch(reject);
     };
     input.click();
@@ -83,25 +150,26 @@ function openPlanFileFallback(): Promise<{ plan: GardenPlan; handle: null; fileN
 }
 
 /** Saves in place when `handle` is given, otherwise behaves like savePlanAs. */
-export async function savePlan(plan: GardenPlan, handle: PlanFileHandle | null): Promise<SaveResult> {
+export async function savePlan(plan: GardenPlan, assets: ImageAssets, handle: PlanFileHandle | null): Promise<SaveResult> {
   if (handle) {
+    const bytes = await buildArchive(plan, assets);
     const writable = await handle.createWritable();
-    await writable.write(JSON.stringify(plan, null, 2));
+    await writable.write(bytes);
     await writable.close();
     return { handle, fileName: handle.name, saved: true };
   }
-  return savePlanAs(plan);
+  return savePlanAs(plan, assets);
 }
 
 /** Always prompts for a new location/file (or triggers a download as fallback). */
-export async function savePlanAs(plan: GardenPlan): Promise<SaveResult> {
-  const json = JSON.stringify(plan, null, 2);
+export async function savePlanAs(plan: GardenPlan, assets: ImageAssets): Promise<SaveResult> {
+  const bytes = await buildArchive(plan, assets);
 
   if (fsAccessSupported()) {
     try {
       const newHandle = await (window as any).showSaveFilePicker({ ...PICKER_OPTIONS, suggestedName: suggestedFileName(plan.name) });
       const writable = await newHandle.createWritable();
-      await writable.write(json);
+      await writable.write(bytes);
       await writable.close();
       return { handle: newHandle, fileName: newHandle.name, saved: true };
     } catch (err) {
@@ -111,17 +179,17 @@ export async function savePlanAs(plan: GardenPlan): Promise<SaveResult> {
   }
 
   const fileName = suggestedFileName(plan.name);
-  downloadJson(json, fileName);
+  downloadBytes(bytes, fileName);
   return { handle: null, fileName, saved: true };
 }
 
 function suggestedFileName(planName: string): string {
   const slug = planName.trim().replace(/[^a-z0-9]+/gi, '-').replace(/^-+|-+$/g, '') || 'garden-plan';
-  return `${slug}.json`;
+  return `${slug}${FILE_EXTENSION}`;
 }
 
-function downloadJson(json: string, filename: string) {
-  const blob = new Blob([json], { type: 'application/json' });
+function downloadBytes(bytes: Uint8Array, filename: string) {
+  const blob = new Blob([bytes as BlobPart], { type: 'application/zip' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;

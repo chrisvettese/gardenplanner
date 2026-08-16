@@ -1,10 +1,11 @@
 # Garden Planner
 
 A tiny, local-first garden bed planner. No account, no server, no
-subscription — just a React app that reads and writes plain `.json`
-plan files. Lay out any shape of garden square-by-square, color and
-label each square, pin freeform notes anywhere on the canvas, and
-save/reload whenever you want to keep working on a plan.
+subscription — just a React app that reads and writes its own
+`.gardenplan` files. Lay out any shape of garden square-by-square,
+color and label each square, pin freeform notes (including pasted
+photos) anywhere on the canvas, and save/reload whenever you want to
+keep working on a plan.
 
 ## Using it
 
@@ -24,6 +25,13 @@ save/reload whenever you want to keep working on a plan.
 - **+ Note** adds a freeform text box anywhere on the canvas — for
   things like a spray schedule or a legend that isn't tied to one
   square. Drag it by its body to reposition it.
+- **Paste an image (Ctrl+V / Cmd+V)** anywhere (not while typing in a
+  text field) to drop it as a new note, sized to its own aspect ratio
+  and centered in the current view. It's downscaled and recompressed
+  to JPEG on the way in so a big screenshot doesn't bloat the saved
+  file — fine for reference photos, not meant for pixel-perfect
+  originals. Give it a caption by typing in its editor like any other
+  note; the label renders on top of the photo instead of replacing it.
 - **Pan**: click-drag empty canvas, or the arrow keys.
 - **Zoom**: mouse wheel / trackpad pinch, or the +/− buttons. "Fit"
   frames the whole garden.
@@ -34,9 +42,9 @@ save/reload whenever you want to keep working on a plan.
   it falls back to a file picker for opening and a download for
   saving.
 
-Everything lives in the plan's `.json` file — there's no hidden state.
-Loading a file fully restores where you left off; "New" just clears
-the in-memory plan.
+Everything lives in the plan's `.gardenplan` file — there's no hidden
+state. Loading a file fully restores where you left off; "New" just
+clears the in-memory plan.
 
 ## Development
 
@@ -61,17 +69,30 @@ This builds the app and pushes `dist/` to the `gh-pages` branch via the
 
 ## Plan file format
 
+A `.gardenplan` file is a zip archive (same trick `.docx`/`.pptx` use —
+rename it to `.zip` and any archive tool will happily open it) containing:
+
+- `plan.json` — the plan itself
+- `images/<note-id>.jpg` — one file per note with a pasted image
+
 ```json
 {
   "version": 1,
   "name": "2026 Plants - June Update",
   "cells": [{ "id": "…", "x": 0, "y": 0, "color": "#d7ecc8", "text": "Melon", "fontSize": 11, "plants": ["tomato", "tomato", "pepper"] }],
-  "notes": [{ "id": "…", "x": 820, "y": 40, "width": 220, "height": 140, "color": "#fff8d6", "text": "Koppert biweekly…" }]
+  "notes": [
+    { "id": "…", "x": 820, "y": 40, "width": 220, "height": 140, "color": "#fff8d6", "text": "Koppert biweekly…" },
+    { "id": "abc123", "x": 300, "y": 500, "width": 240, "height": 160, "color": "#fff8d6", "text": "", "image": "images/abc123.jpg" }
+  ]
 }
 ```
 
 `cells` use integer grid coordinates; `notes` use free pixel-space
-coordinates, independent of the grid.
+coordinates, independent of the grid. A note's `image` is a path
+relative to the archive root, not embedded data — that's what the
+`images/` folder is for. Files saved before this existed are plain
+JSON with no image support; opening one still works (detected
+automatically), it just won't have any `images/` folder to draw from.
 
 ## Plant catalog
 

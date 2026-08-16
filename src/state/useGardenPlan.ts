@@ -25,7 +25,7 @@ type Action =
   | { type: 'ADD_CELL'; x: number; y: number }
   | { type: 'UPDATE_CELL'; id: string; patch: Partial<Pick<Cell, 'color' | 'text' | 'fontSize' | 'plants'>> }
   | { type: 'DELETE_CELL'; id: string }
-  | { type: 'ADD_NOTE'; x: number; y: number }
+  | { type: 'ADD_NOTE'; x: number; y: number; width?: number; height?: number; image?: string }
   | { type: 'UPDATE_NOTE'; id: string; patch: Partial<Pick<Note, 'color' | 'text' | 'x' | 'y' | 'width' | 'height'>> }
   | { type: 'DELETE_NOTE'; id: string }
   | { type: 'SELECT'; selection: Selection }
@@ -69,7 +69,16 @@ function reducer(state: State, action: Action): State {
       return { ...state, plan: { ...state.plan, cells }, dirty: true, selection };
     }
     case 'ADD_NOTE': {
-      const note: Note = { id: newId(), x: action.x, y: action.y, width: 220, height: 140, color: DEFAULT_NOTE_COLOR, text: '' };
+      const note: Note = {
+        id: newId(),
+        x: action.x,
+        y: action.y,
+        width: action.width ?? 220,
+        height: action.height ?? 140,
+        color: DEFAULT_NOTE_COLOR,
+        text: '',
+        image: action.image,
+      };
       return {
         ...state,
         plan: { ...state.plan, notes: [...state.plan.notes, note] },
@@ -109,7 +118,11 @@ export function useGardenPlan() {
   const addCell = useCallback((x: number, y: number) => dispatch({ type: 'ADD_CELL', x, y }), []);
   const updateCell = useCallback((id: string, patch: Partial<Pick<Cell, 'color' | 'text' | 'fontSize' | 'plants'>>) => dispatch({ type: 'UPDATE_CELL', id, patch }), []);
   const deleteCell = useCallback((id: string) => dispatch({ type: 'DELETE_CELL', id }), []);
-  const addNote = useCallback((x: number, y: number) => dispatch({ type: 'ADD_NOTE', x, y }), []);
+  const addNote = useCallback(
+    (x: number, y: number, opts?: { width?: number; height?: number; image?: string }) =>
+      dispatch({ type: 'ADD_NOTE', x, y, ...opts }),
+    [],
+  );
   const updateNote = useCallback(
     (id: string, patch: Partial<Pick<Note, 'color' | 'text' | 'x' | 'y' | 'width' | 'height'>>) => dispatch({ type: 'UPDATE_NOTE', id, patch }),
     [],

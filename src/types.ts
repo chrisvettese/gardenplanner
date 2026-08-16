@@ -22,6 +22,9 @@ export interface Note {
   height: number;
   color: string;
   text: string;
+  /** A blob: URL while the app is open (see io/imageAssets.ts); a relative
+   * path like "images/<id>.jpg" inside a saved .gardenplan zip. */
+  image?: string;
 }
 
 export interface GardenPlan {
