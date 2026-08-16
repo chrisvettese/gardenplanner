@@ -75,10 +75,12 @@ coordinates, independent of the grid.
 
 ## Plant catalog
 
-10 common plants to start ([src/plants/catalog.ts](src/plants/catalog.ts),
-icons in [src/plants/icons.tsx](src/plants/icons.tsx)): tomato, pepper,
-melon, watermelon, fig, raspberry, bean, sunflower, basil, onion.
-Adding more later is just adding an entry + icon component.
+18 plants so far ([src/plants/catalog.ts](src/plants/catalog.ts), icons
+in [src/plants/icons.tsx](src/plants/icons.tsx)): tomato, pepper, melon,
+watermelon, fig, clementine, raspberry, bean, celery, onion, Genovese
+basil, Thai basil, rosemary, sunflower, morning glory, mandevilla,
+heliotrope, pelargonium. Adding more later is just adding a catalog
+entry + icon component.
 
 ## Not in the MVP yet
 

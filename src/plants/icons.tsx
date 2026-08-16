@@ -19,25 +19,34 @@ export function TomatoIcon(props: IconProps) {
 }
 
 export function PepperIcon(props: IconProps) {
+  // A jalapeño-style curved, tapered pod rather than a bell-pepper blob
+  // (the old rounded-body + neck read as a lightbulb). Drawn as a thick
+  // round-capped stroke so the taper/curve stays simple to author, with a
+  // darker stroke layered behind for edge definition and a lighter
+  // highlight stroke for a bit of shine.
+  const body = 'M13 6c-7 4 -9 12 -4 18c3 3.5 8 5 12 3';
   return (
     <svg {...svgProps} {...props}>
-      <path
-        d="M14 6c-1 1.5 -1.5 2.7 -1 3.6c-3 1 -5.4 4.6 -5.4 8.8c0 5.6 4.3 9.3 8.4 9.3c4.1 0 8.4 -3.7 8.4 -9.3c0 -4.2 -2.4 -7.8 -5.4 -8.8c0.5 -0.9 0 -2.1 -1 -3.6z"
-        fill="#63a83f"
-        {...outline}
-      />
-      <rect x="14.3" y="3.6" width="3.4" height="3.6" rx="1" fill="#7a5230" {...outline} />
+      <path d={body} fill="none" stroke="rgba(0,0,0,0.3)" strokeWidth="8.4" strokeLinecap="round" />
+      <path d={body} fill="none" stroke="#4c8f3d" strokeWidth="7" strokeLinecap="round" />
+      <path d="M11 10c-3.4 3.6 -4 8.6 -1 12.4" fill="none" stroke="#79c25a" strokeWidth="1.6" strokeLinecap="round" opacity="0.7" />
+      <path d="M12.4 4c1 0.7 1.8 1.7 2.1 3" fill="none" stroke="#5a3a24" strokeWidth="2.4" strokeLinecap="round" />
     </svg>
   );
 }
 
 export function MelonIcon(props: IconProps) {
+  // Ribs run pole-to-pole (stem end to blossom end), not around the
+  // equator, so they're drawn as curves converging at the top/bottom of
+  // the ellipse rather than horizontal bands.
   return (
     <svg {...svgProps} {...props}>
-      <ellipse cx="16" cy="17" rx="12" ry="9" fill="#d8a24a" {...outline} />
-      <path d="M6 13c4 3 16 3 20 0" fill="none" stroke="#a9762c" strokeWidth="1" />
-      <path d="M5 18c4 3 18 3 22 0" fill="none" stroke="#a9762c" strokeWidth="1" />
-      <path d="M8 23c3 2 13 2 16 0" fill="none" stroke="#a9762c" strokeWidth="1" />
+      <ellipse cx="16" cy="17" rx="11" ry="9" fill="#d8a24a" {...outline} />
+      <path d="M16 8Q6 17 16 26" fill="none" stroke="#a9762c" strokeWidth="1" />
+      <path d="M16 8Q11 17 16 26" fill="none" stroke="#a9762c" strokeWidth="1" />
+      <path d="M16 8L16 26" fill="none" stroke="#a9762c" strokeWidth="1" />
+      <path d="M16 8Q21 17 16 26" fill="none" stroke="#a9762c" strokeWidth="1" />
+      <path d="M16 8Q26 17 16 26" fill="none" stroke="#a9762c" strokeWidth="1" />
       <rect x="14.6" y="7.4" width="2.8" height="3" rx="1" fill="#5a9e52" />
     </svg>
   );
@@ -109,14 +118,159 @@ export function SunflowerIcon(props: IconProps) {
   );
 }
 
-export function BasilIcon(props: IconProps) {
+// Genovese: the classic broad, rounded Italian basil leaf, all green.
+export function GenoveseBasilIcon(props: IconProps) {
   return (
     <svg {...svgProps} {...props}>
       <path d="M16 27c0 -8 0 -14 0 -19" fill="none" stroke="#3a7040" strokeWidth="1.4" strokeLinecap="round" />
-      <path d="M16 13c-5 -1 -8 -5 -7 -9c4 1 7 4 7 9z" fill="#5da33b" {...outline} />
-      <path d="M16 13c5 -1 8 -5 7 -9c-4 1 -7 4 -7 9z" fill="#6fb84a" {...outline} />
-      <path d="M16 19c-4 -0.6 -6.5 -3.6 -5.8 -7c3.2 0.8 5.6 3.2 5.8 7z" fill="#5da33b" {...outline} />
-      <path d="M16 19c4 -0.6 6.5 -3.6 5.8 -7c-3.2 0.8 -5.6 3.2 -5.8 7z" fill="#6fb84a" {...outline} />
+      <path d="M16 12c-5.5 -1 -9 -5.5 -8 -10c4.5 1 8 4.5 8 10z" fill="#5da33b" {...outline} />
+      <path d="M16 12c5.5 -1 9 -5.5 8 -10c-4.5 1 -8 4.5 -8 10z" fill="#6fb84a" {...outline} />
+      <path d="M16 19c-4.5 -0.6 -7 -3.8 -6.2 -7.4c3.4 0.8 6 3.4 6.2 7.4z" fill="#5da33b" {...outline} />
+      <path d="M16 19c4.5 -0.6 7 -3.8 6.2 -7.4c-3.4 0.8 -6 3.4 -6.2 7.4z" fill="#6fb84a" {...outline} />
+    </svg>
+  );
+}
+
+// Thai: narrower, pointier leaves plus the purple stem/flower spike that
+// distinguishes Thai basil from Genovese at a glance.
+export function ThaiBasilIcon(props: IconProps) {
+  return (
+    <svg {...svgProps} {...props}>
+      <path d="M16 27c0 -7 0 -12 0 -16" fill="none" stroke="#6a4a72" strokeWidth="1.4" strokeLinecap="round" />
+      <path d="M16 15c-3.6 -2.6 -5 -6.4 -3.4 -9.4c3 1.6 4.6 4.8 3.4 9.4z" fill="#4a8a3a" {...outline} />
+      <path d="M16 15c3.6 -2.6 5 -6.4 3.4 -9.4c-3 1.6 -4.6 4.8 -3.4 9.4z" fill="#5a9e46" {...outline} />
+      <path d="M16 20.5c-3 -1.6 -4.4 -4.4 -3.4 -7c2.6 1.2 4 3.4 3.4 7z" fill="#4a8a3a" {...outline} />
+      <path d="M16 20.5c3 -1.6 4.4 -4.4 3.4 -7c-2.6 1.2 -4 3.4 -3.4 7z" fill="#5a9e46" {...outline} />
+      <g fill="#8a5fb0" {...outline}>
+        <circle cx="16" cy="6" r="1.1" />
+        <circle cx="14.7" cy="8" r="1" />
+        <circle cx="17.3" cy="8" r="1" />
+      </g>
+    </svg>
+  );
+}
+
+export function RosemaryIcon(props: IconProps) {
+  return (
+    <svg {...svgProps} {...props}>
+      <path d="M16 27c0 -7 0 -14 0 -19" fill="none" stroke="#5a7a4a" strokeWidth="1.3" strokeLinecap="round" />
+      <g stroke="#4a7a3a" strokeWidth="1.4" strokeLinecap="round">
+        <path d="M16 10l-4 -2" />
+        <path d="M16 10l4 -2" />
+        <path d="M16 13l-4.5 -1.5" />
+        <path d="M16 13l4.5 -1.5" />
+        <path d="M16 16l-4.5 -1" />
+        <path d="M16 16l4.5 -1" />
+        <path d="M16 19l-4 -0.5" />
+        <path d="M16 19l4 -0.5" />
+        <path d="M16 22l-3.5 0" />
+        <path d="M16 22l3.5 0" />
+      </g>
+      <circle cx="16" cy="7.5" r="1.4" fill="#8a7fd8" {...outline} />
+    </svg>
+  );
+}
+
+export function CeleryIcon(props: IconProps) {
+  return (
+    <svg {...svgProps} {...props}>
+      <rect x="10.5" y="12" width="3" height="16" rx="1.5" fill="#c3d98a" {...outline} />
+      <rect x="14.5" y="10" width="3" height="18" rx="1.5" fill="#cfe49a" {...outline} />
+      <rect x="18.5" y="12" width="3" height="16" rx="1.5" fill="#c3d98a" {...outline} />
+      <circle cx="12" cy="10" r="2.2" fill="#5a9e52" {...outline} />
+      <circle cx="16" cy="8" r="2.4" fill="#4f9153" {...outline} />
+      <circle cx="20" cy="10" r="2.2" fill="#5a9e52" {...outline} />
+    </svg>
+  );
+}
+
+// Shared funnel-flower silhouette for morning glory / mandevilla: a disc
+// with radiating crease lines and a pale throat, just recolored.
+function TrumpetFlower({ petal, crease, throat }: { petal: string; crease: string; throat: string }) {
+  return (
+    <>
+      <circle cx="16" cy="16" r="10" fill={petal} {...outline} />
+      <g stroke={crease} strokeWidth="0.8">
+        <path d="M16 6L16 26" />
+        <path d="M7.5 10.5L24.5 21.5" />
+        <path d="M7.5 21.5L24.5 10.5" />
+      </g>
+      <circle cx="16" cy="16" r="3" fill={throat} />
+      <circle cx="16" cy="16" r="1.1" fill="#f2c94c" />
+    </>
+  );
+}
+
+export function MorningGloryIcon(props: IconProps) {
+  return (
+    <svg {...svgProps} {...props}>
+      <TrumpetFlower petal="#6a7fd1" crease="#4f5fb0" throat="#eef0fb" />
+      <path d="M22 24c2 1 4 3 4 5" fill="none" stroke="#4f9153" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function MandevillaIcon(props: IconProps) {
+  return (
+    <svg {...svgProps} {...props}>
+      <TrumpetFlower petal="#e0568f" crease="#b83c6e" throat="#fde3ee" />
+      <path d="M9 25c-2 1 -3.5 3 -3.5 5.5" fill="none" stroke="#4f9153" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function HeliotropeIcon(props: IconProps) {
+  return (
+    <svg {...svgProps} {...props}>
+      <g fill="#7a5fb0" {...outline}>
+        <circle cx="16" cy="10.5" r="2.6" />
+        <circle cx="11.5" cy="12.5" r="2.6" />
+        <circle cx="20.5" cy="12.5" r="2.6" />
+        <circle cx="9" cy="16" r="2.6" />
+        <circle cx="23" cy="16" r="2.6" />
+        <circle cx="13" cy="15.5" r="2.6" />
+        <circle cx="19" cy="15.5" r="2.6" />
+        <circle cx="16" cy="18.5" r="2.6" />
+      </g>
+      <path d="M16 24c0 -3.5 0 -5.5 0 -7" fill="none" stroke="#3a7040" strokeWidth="1.3" strokeLinecap="round" />
+      <path d="M13 27c-1.5 -2 -1.6 -4.4 0 -6c2 1.2 2.6 3.6 0 6z" fill="#5a9e52" {...outline} />
+      <path d="M19 27c1.5 -2 1.6 -4.4 0 -6c-2 1.2 -2.6 3.6 0 6z" fill="#5a9e52" {...outline} />
+    </svg>
+  );
+}
+
+// Pelargonium = the classic garden "geranium": a ball of small florets on a
+// stem above the plant's characteristic round, scalloped leaf.
+export function PelargoniumIcon(props: IconProps) {
+  return (
+    <svg {...svgProps} {...props}>
+      <circle cx="16" cy="23" r="7.5" fill="#5a9e52" {...outline} />
+      <g stroke="#3a7040" strokeWidth="0.6" fill="none">
+        <path d="M16 23L16 17" />
+        <path d="M16 23L10.5 20" />
+        <path d="M16 23L21.5 20" />
+        <path d="M16 23L10.8 26.5" />
+        <path d="M16 23L21.2 26.5" />
+      </g>
+      <path d="M16 15c0 -3 0 -5 0 -7" fill="none" stroke="#3a7040" strokeWidth="1.2" strokeLinecap="round" />
+      <g fill="#d94a6a" {...outline}>
+        <circle cx="16" cy="6.5" r="1.9" />
+        <circle cx="13" cy="8" r="1.9" />
+        <circle cx="19" cy="8" r="1.9" />
+        <circle cx="14.3" cy="10.8" r="1.9" />
+        <circle cx="17.7" cy="10.8" r="1.9" />
+      </g>
+    </svg>
+  );
+}
+
+export function ClementineIcon(props: IconProps) {
+  return (
+    <svg {...svgProps} {...props}>
+      <circle cx="16" cy="18" r="9.5" fill="#f0932b" {...outline} />
+      <circle cx="16" cy="18" r="1" fill="#c96f1a" />
+      <path d="M16 8.5c3 -3 6 -2 6.5 0.5c-2 -0.6 -3.6 0 -4.6 1.4z" fill="#5a9e52" {...outline} />
+      <rect x="15.3" y="7" width="1.4" height="2.5" rx="0.6" fill="#6b4a2a" />
     </svg>
   );
 }
