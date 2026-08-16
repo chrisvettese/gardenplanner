@@ -24,7 +24,8 @@ keep working on a plan.
   glance.
 - **+ Note** adds a freeform text box anywhere on the canvas — for
   things like a spray schedule or a legend that isn't tied to one
-  square. Drag it by its body to reposition it.
+  square. Drag it by its body to reposition it, or drag the handle at
+  its bottom-right corner (visible when selected) to resize it.
 - **Paste an image (Ctrl+V / Cmd+V)** anywhere (not while typing in a
   text field) to drop it as a new note, sized to its own aspect ratio
   and centered in the current view. It's downscaled and recompressed
@@ -34,7 +35,8 @@ keep working on a plan.
   note; the label renders on top of the photo instead of replacing it.
 - **Pan**: click-drag empty canvas, or the arrow keys.
 - **Zoom**: mouse wheel / trackpad pinch, or the +/− buttons. "Fit"
-  frames the whole garden.
+  frames every square and every note, including ones sitting well
+  outside the grid.
 - **Delete**: select a square/note and press Delete/Backspace, or use
   the delete button in its editor.
 - **Open / Save / Save As**: in Chrome/Edge these save straight back to
@@ -105,5 +107,5 @@ a catalog entry + icon component.
 
 ## Not in the MVP yet
 
-Cell spanning/merging, undo/redo, PNG export, a multi-plan library, and
-resizable notes. All straightforward to add later if useful.
+Cell spanning/merging, undo/redo, PNG export, and a multi-plan
+library. All straightforward to add later if useful.
