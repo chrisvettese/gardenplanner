@@ -187,6 +187,20 @@ body {
   color: #1c1c1c;
 }
 
+.gp-plant-grid {
+  position: absolute;
+  inset: 2px;
+  display: grid;
+  grid-auto-rows: 1fr;
+  gap: 1px;
+}
+
+.gp-plant-grid__slot {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+}
+
 .gp-note {
   position: absolute;
   border: 1px solid rgba(0, 0, 0, 0.2);
@@ -215,7 +229,7 @@ body {
 .gp-popover {
   position: absolute;
   z-index: 20;
-  width: 220px;
+  width: 264px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -236,6 +250,104 @@ body {
   resize: vertical;
   background: var(--gp-bg);
   color: var(--gp-text);
+}
+
+.gp-popover__plants {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.gp-popover__plants-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--gp-muted);
+}
+
+.gp-popover__plants-count {
+  font-variant-numeric: tabular-nums;
+}
+
+.gp-plant-palette {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.gp-plant-palette__btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  width: 46px;
+  padding: 4px 2px;
+  border: 1px solid var(--gp-border);
+  border-radius: 6px;
+  background: var(--gp-bg);
+  cursor: pointer;
+}
+
+.gp-plant-palette__btn:hover:not(:disabled) {
+  border-color: var(--gp-accent);
+}
+
+.gp-plant-palette__btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.gp-plant-palette__btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+.gp-plant-palette__btn span {
+  font-size: 9px;
+  color: var(--gp-muted);
+  line-height: 1.1;
+  text-align: center;
+}
+
+.gp-plant-selected {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding-top: 4px;
+  border-top: 1px solid var(--gp-border);
+}
+
+.gp-plant-selected__chip {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 4px 2px 2px;
+  border: 1px solid var(--gp-border);
+  border-radius: 999px;
+  background: var(--gp-bg);
+  font-size: 11px;
+  color: var(--gp-text);
+}
+
+.gp-plant-selected__chip svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+
+.gp-plant-selected__chip button {
+  border: none;
+  background: none;
+  color: var(--gp-muted);
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1;
+  padding: 0 2px;
+}
+
+.gp-plant-selected__chip button:hover {
+  color: var(--gp-danger);
 }
 
 .gp-popover__fontsize {

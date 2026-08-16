@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { MAX_CELL_FONT_SIZE, MIN_CELL_FONT_SIZE } from '../state/useGardenPlan';
+import { MAX_PLANTS_PER_CELL, PLANT_CATALOG, getPlant } from '../plants/catalog';
 
 const PRESET_COLORS = ['#d7ecc8', '#bfe3f0', '#f7d6e0', '#fff2b3', '#e3d5f5', '#ffd9b3', '#ffffff', '#d9d9d9'];
 
@@ -14,9 +15,11 @@ interface EditPopoverProps {
   onChangeColor: (color: string) => void;
   onDelete: () => void;
   onClose: () => void;
-  /** Only squares have an adjustable font size; omit for notes. */
+  /** Only squares have an adjustable font size and a plant picker; omit both for notes. */
   fontSize?: number;
   onChangeFontSize?: (fontSize: number) => void;
+  plants?: string[];
+  onChangePlants?: (plants: string[]) => void;
 }
 
 export default function EditPopover({
@@ -32,6 +35,8 @@ export default function EditPopover({
   onClose,
   fontSize,
   onChangeFontSize,
+  plants,
+  onChangePlants,
 }: EditPopoverProps) {
   const textRef = useRef<HTMLTextAreaElement>(null);
 
@@ -54,6 +59,58 @@ export default function EditPopover({
           if (e.key === 'Escape') onClose();
         }}
       />
+      {plants !== undefined && onChangePlants && (
+        <div className="gp-popover__plants">
+          <div className="gp-popover__plants-header">
+            <span>Plants</span>
+            <span className="gp-popover__plants-count">
+              {plants.length}/{MAX_PLANTS_PER_CELL}
+            </span>
+          </div>
+          <div className="gp-plant-palette">
+            {PLANT_CATALOG.map((p) => {
+              const Icon = p.Icon;
+              const full = plants.length >= MAX_PLANTS_PER_CELL;
+              return (
+                <button
+                  key={p.id}
+                  type="button"
+                  className="gp-plant-palette__btn"
+                  disabled={full}
+                  title={`Add ${p.label}`}
+                  onClick={() => onChangePlants([...plants, p.id])}
+                >
+                  <Icon />
+                  <span>{p.label}</span>
+                </button>
+              );
+            })}
+          </div>
+          {plants.length > 0 && (
+            <div className="gp-plant-selected">
+              {plants.map((id, i) => {
+                const plant = getPlant(id);
+                if (!plant) return null;
+                const Icon = plant.Icon;
+                return (
+                  <div className="gp-plant-selected__chip" key={`${id}-${i}`}>
+                    <Icon />
+                    <span>{plant.label}</span>
+                    <button
+                      type="button"
+                      aria-label={`Remove ${plant.label}`}
+                      onClick={() => onChangePlants(plants.filter((_, idx) => idx !== i))}
+                    >
+                      ×
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      )}
+
       {fontSize !== undefined && onChangeFontSize && (
         <div className="gp-popover__fontsize">
           <span>Font size</span>

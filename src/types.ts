@@ -9,6 +9,8 @@ export interface Cell {
   text: string;
   /** Label font size in px. */
   fontSize: number;
+  /** Up to 9 plant catalog ids; duplicates allowed (e.g. 2 tomatoes + 2 peppers). */
+  plants: string[];
 }
 
 /** A freeform text note, positioned anywhere on the canvas (not grid-snapped). */
