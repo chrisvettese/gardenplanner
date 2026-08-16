@@ -48,7 +48,15 @@ export default function NoteView({ note, selected, scale, onSelect, onMove, onRe
     if (!resize) return;
     const dx = (e.clientX - resize.startScreenX) / scale;
     const dy = (e.clientY - resize.startScreenY) / scale;
-    onResize(Math.max(MIN_NOTE_SIZE, Math.round(resize.startWidth + dx)), Math.max(MIN_NOTE_SIZE, Math.round(resize.startHeight + dy)));
+    // Scale both dimensions together by how far the corner moved along the
+    // box's own diagonal, rather than letting width/height track dx/dy
+    // independently — that let a mostly-horizontal or -vertical drag distort
+    // the box out of its original proportions instead of just resizing it.
+    const startDiagonal = Math.hypot(resize.startWidth, resize.startHeight);
+    const newDiagonal = Math.hypot(resize.startWidth + dx, resize.startHeight + dy);
+    const minScale = MIN_NOTE_SIZE / Math.min(resize.startWidth, resize.startHeight);
+    const scaleFactor = Math.max(minScale, newDiagonal / startDiagonal);
+    onResize(Math.round(resize.startWidth * scaleFactor), Math.round(resize.startHeight * scaleFactor));
   }
 
   function handleResizePointerUp(e: React.PointerEvent) {
