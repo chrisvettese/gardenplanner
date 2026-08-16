@@ -19,18 +19,25 @@ export function TomatoIcon(props: IconProps) {
 }
 
 export function PepperIcon(props: IconProps) {
-  // A jalapeño-style curved, tapered pod rather than a bell-pepper blob
-  // (the old rounded-body + neck read as a lightbulb). Drawn as a thick
-  // round-capped stroke so the taper/curve stays simple to author, with a
-  // darker stroke layered behind for edge definition and a lighter
-  // highlight stroke for a bit of shine.
-  const body = 'M13 6c-7 4 -9 12 -4 18c3 3.5 8 5 12 3';
+  // Stereotypical red chili: a solid tapered body (wide shoulder, fine
+  // point), not a uniform-width green tube — that read as a cucumber.
+  // The curled green stem is the other big identifying feature.
   return (
     <svg {...svgProps} {...props}>
-      <path d={body} fill="none" stroke="rgba(0,0,0,0.3)" strokeWidth="8.4" strokeLinecap="round" />
-      <path d={body} fill="none" stroke="#4c8f3d" strokeWidth="7" strokeLinecap="round" />
-      <path d="M11 10c-3.4 3.6 -4 8.6 -1 12.4" fill="none" stroke="#79c25a" strokeWidth="1.6" strokeLinecap="round" opacity="0.7" />
-      <path d="M12.4 4c1 0.7 1.8 1.7 2.1 3" fill="none" stroke="#5a3a24" strokeWidth="2.4" strokeLinecap="round" />
+      <path
+        d="M13 10C11 13 11 17 13 20C15 23 17 26 20.5 29C19.5 25 19.5 20 19 16C18.6 13 18 10.5 17 9C15.5 8.3 14 8.5 13 10Z"
+        fill="#e0392f"
+        {...outline}
+      />
+      <path d="M13.6 12c-1 2 -1 4.6 0.4 6.8" fill="none" stroke="#f28b7e" strokeWidth="1.3" strokeLinecap="round" opacity="0.8" />
+      <path
+        d="M15 9c0 -2.5 0 -4 1 -5c1.3 -1.3 3 -1 3 0.5c0 1.2 -1.3 1.6 -2.2 0.8"
+        fill="none"
+        stroke="#4a7a3a"
+        strokeWidth="2.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
