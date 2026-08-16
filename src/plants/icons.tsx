@@ -207,37 +207,53 @@ export function CeleryIcon(props: IconProps) {
   );
 }
 
-// Shared funnel-flower silhouette for morning glory / mandevilla: a disc
-// with radiating crease lines and a pale throat, just recolored.
-function TrumpetFlower({ petal, crease, throat }: { petal: string; crease: string; throat: string }) {
+// Morning glory: a flat, fused trumpet disc — the petals never separate,
+// they just crease where they would meet, with a pale five-point star
+// bleeding out from the throat. Wide open, almost 2D.
+export function MorningGloryIcon(props: IconProps) {
   return (
-    <>
-      <circle cx="16" cy="16" r="10" fill={petal} {...outline} />
-      <g stroke={crease} strokeWidth="0.8">
+    <svg {...svgProps} {...props}>
+      <circle cx="16" cy="16" r="10" fill="#6a7fd1" {...outline} />
+      <path
+        d="M16 8.4L18.4 13.6L24 14.2L19.8 18L21 23.6L16 20.8L11 23.6L12.2 18L8 14.2L13.6 13.6Z"
+        fill="#8f9fe0"
+        opacity="0.85"
+      />
+      <g stroke="#4f5fb0" strokeWidth="0.7">
         <path d="M16 6L16 26" />
         <path d="M7.5 10.5L24.5 21.5" />
         <path d="M7.5 21.5L24.5 10.5" />
       </g>
-      <circle cx="16" cy="16" r="3" fill={throat} />
-      <circle cx="16" cy="16" r="1.1" fill="#f2c94c" />
-    </>
-  );
-}
-
-export function MorningGloryIcon(props: IconProps) {
-  return (
-    <svg {...svgProps} {...props}>
-      <TrumpetFlower petal="#6a7fd1" crease="#4f5fb0" throat="#eef0fb" />
+      <circle cx="16" cy="16" r="2.6" fill="#eef0fb" />
+      <circle cx="16" cy="16" r="1" fill="#f2c94c" />
       <path d="M22 24c2 1 4 3 4 5" fill="none" stroke="#4f9153" strokeWidth="1.4" strokeLinecap="round" />
     </svg>
   );
 }
 
+// Mandevilla: the opposite silhouette from morning glory — five separate,
+// narrow paddle-shaped petals that twist pinwheel-style around the throat
+// (each overlapping the next), not a single fused disc. Deep pink, with a
+// glossy dark leaf pair (mandevilla's leaves are a distinct ID feature too).
 export function MandevillaIcon(props: IconProps) {
+  const petalAngles = [0, 72, 144, 216, 288];
   return (
     <svg {...svgProps} {...props}>
-      <TrumpetFlower petal="#e0568f" crease="#b83c6e" throat="#fde3ee" />
       <path d="M9 25c-2 1 -3.5 3 -3.5 5.5" fill="none" stroke="#4f9153" strokeWidth="1.4" strokeLinecap="round" />
+      <ellipse cx="10.5" cy="27" rx="2.6" ry="1.6" fill="#3a7040" transform="rotate(-35 10.5 27)" {...outline} />
+      <g>
+        {petalAngles.map((angle) => (
+          <path
+            key={angle}
+            d="M16 16C12.5 13.2 11 8.6 13.4 4.6C17.5 5.6 19.4 10 18.6 16Z"
+            fill="#e0568f"
+            transform={`rotate(${angle} 16 16)`}
+            {...outline}
+          />
+        ))}
+      </g>
+      <circle cx="16" cy="16" r="2" fill="#fde3ee" />
+      <circle cx="16" cy="16" r="0.8" fill="#f2c94c" />
     </svg>
   );
 }
