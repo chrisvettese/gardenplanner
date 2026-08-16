@@ -146,13 +146,15 @@ export default function EditPopover({
             onClick={() => onChangeColor(c)}
           />
         ))}
-        <input
-          type="color"
-          className="gp-swatch gp-swatch--custom"
-          value={color}
-          onChange={(e) => onChangeColor(e.target.value)}
-          title="Custom color"
-        />
+        <span className="gp-swatch gp-swatch--custom" title="Custom color">
+          <input
+            type="color"
+            className="gp-swatch--custom-input"
+            value={color}
+            onChange={(e) => onChangeColor(e.target.value)}
+            aria-label="Custom color"
+          />
+        </span>
       </div>
       <div className="gp-popover__actions">
         <button type="button" className="gp-btn gp-btn--danger" onClick={onDelete}>

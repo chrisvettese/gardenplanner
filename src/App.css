@@ -419,16 +419,26 @@ body {
   outline-offset: 1px;
 }
 
+/* The real <input type="color"> is visually hidden and just captures the
+   click/tap — its native swatch fill (Chrome) or button chrome (Firefox)
+   would otherwise paint over most of our rainbow background, leaving only
+   a thin rainbow rim instead of a full rainbow circle. */
 .gp-swatch--custom {
-  appearance: none;
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
   background: conic-gradient(red, yellow, lime, cyan, blue, magenta, red);
 }
-.gp-swatch--custom::-webkit-color-swatch-wrapper {
+
+.gp-swatch--custom-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   padding: 0;
-}
-.gp-swatch--custom::-webkit-color-swatch {
   border: none;
-  border-radius: 50%;
+  opacity: 0;
+  cursor: pointer;
 }
 
 .gp-popover__actions {
