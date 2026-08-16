@@ -25,7 +25,9 @@ export default function CellView({ cell, selected, onSelect }: CellViewProps) {
       }}
       title={cell.text}
     >
-      <span className="gp-cell__text">{cell.text}</span>
+      <span className="gp-cell__text" style={{ fontSize: cell.fontSize }}>
+        {cell.text}
+      </span>
     </div>
   );
 }

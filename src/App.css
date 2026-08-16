@@ -238,6 +238,26 @@ body {
   color: var(--gp-text);
 }
 
+.gp-popover__fontsize {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--gp-muted);
+}
+
+.gp-popover__fontsize .gp-btn {
+  padding: 2px 8px;
+  line-height: 1.4;
+}
+
+.gp-popover__fontsize-value {
+  min-width: 34px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  color: var(--gp-text);
+}
+
 .gp-popover__swatches {
   display: flex;
   flex-wrap: wrap;

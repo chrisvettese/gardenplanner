@@ -1,4 +1,5 @@
-import type { GardenPlan } from '../types';
+import type { Cell, GardenPlan } from '../types';
+import { DEFAULT_CELL_FONT_SIZE } from '../state/useGardenPlan';
 
 /** Minimal shape of the File System Access API handle we rely on.
  *  Typed loosely so we don't need to pull in a types package just for
@@ -29,7 +30,9 @@ export function parsePlan(data: unknown): GardenPlan {
   return {
     version: 1,
     name: typeof d.name === 'string' ? d.name : 'Untitled garden',
-    cells: d.cells as GardenPlan['cells'],
+    // Older files predate per-cell font size; default it in rather than
+    // rendering an invalid CSS value.
+    cells: (d.cells as Cell[]).map((c) => ({ fontSize: DEFAULT_CELL_FONT_SIZE, ...c })),
     notes: d.notes as GardenPlan['notes'],
   };
 }

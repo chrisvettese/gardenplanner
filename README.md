@@ -12,8 +12,8 @@ save/reload whenever you want to keep working on a plan.
   form any shape — there's no fixed rectangle, just the squares you've
   added. Anywhere you haven't added a square is simply out of bounds.
 - **Click a square** (or note) to open its editor: type a label, pick a
-  color (recently-used colors show up first for quick reuse), or delete
-  it.
+  color (recently-used colors show up first for quick reuse), adjust
+  the label's font size (squares only), or delete it.
 - **+ Note** adds a freeform text box anywhere on the canvas — for
   things like a spray schedule or a legend that isn't tied to one
   square. Drag it by its body to reposition it.
@@ -58,7 +58,7 @@ This builds the app and pushes `dist/` to the `gh-pages` branch via the
 {
   "version": 1,
   "name": "2026 Plants - June Update",
-  "cells": [{ "id": "…", "x": 0, "y": 0, "color": "#d7ecc8", "text": "Melon" }],
+  "cells": [{ "id": "…", "x": 0, "y": 0, "color": "#d7ecc8", "text": "Melon", "fontSize": 11 }],
   "notes": [{ "id": "…", "x": 820, "y": 40, "width": 220, "height": 140, "color": "#fff8d6", "text": "Koppert biweekly…" }]
 }
 ```

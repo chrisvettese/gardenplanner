@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { MAX_CELL_FONT_SIZE, MIN_CELL_FONT_SIZE } from '../state/useGardenPlan';
 
 const PRESET_COLORS = ['#d7ecc8', '#bfe3f0', '#f7d6e0', '#fff2b3', '#e3d5f5', '#ffd9b3', '#ffffff', '#d9d9d9'];
 
@@ -13,9 +14,25 @@ interface EditPopoverProps {
   onChangeColor: (color: string) => void;
   onDelete: () => void;
   onClose: () => void;
+  /** Only squares have an adjustable font size; omit for notes. */
+  fontSize?: number;
+  onChangeFontSize?: (fontSize: number) => void;
 }
 
-export default function EditPopover({ x, y, text, color, recentColors, deleteLabel, onChangeText, onChangeColor, onDelete, onClose }: EditPopoverProps) {
+export default function EditPopover({
+  x,
+  y,
+  text,
+  color,
+  recentColors,
+  deleteLabel,
+  onChangeText,
+  onChangeColor,
+  onDelete,
+  onClose,
+  fontSize,
+  onChangeFontSize,
+}: EditPopoverProps) {
   const textRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -37,6 +54,30 @@ export default function EditPopover({ x, y, text, color, recentColors, deleteLab
           if (e.key === 'Escape') onClose();
         }}
       />
+      {fontSize !== undefined && onChangeFontSize && (
+        <div className="gp-popover__fontsize">
+          <span>Font size</span>
+          <button
+            type="button"
+            className="gp-btn"
+            aria-label="Decrease font size"
+            disabled={fontSize <= MIN_CELL_FONT_SIZE}
+            onClick={() => onChangeFontSize(Math.max(MIN_CELL_FONT_SIZE, fontSize - 1))}
+          >
+            −
+          </button>
+          <span className="gp-popover__fontsize-value">{fontSize}px</span>
+          <button
+            type="button"
+            className="gp-btn"
+            aria-label="Increase font size"
+            disabled={fontSize >= MAX_CELL_FONT_SIZE}
+            onClick={() => onChangeFontSize(Math.min(MAX_CELL_FONT_SIZE, fontSize + 1))}
+          >
+            +
+          </button>
+        </div>
+      )}
       <div className="gp-popover__swatches">
         {swatches.map((c) => (
           <button

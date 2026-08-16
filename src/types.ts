@@ -7,6 +7,8 @@ export interface Cell {
   y: number;
   color: string;
   text: string;
+  /** Label font size in px. */
+  fontSize: number;
 }
 
 /** A freeform text note, positioned anywhere on the canvas (not grid-snapped). */

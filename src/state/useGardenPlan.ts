@@ -4,6 +4,9 @@ import { createEmptyPlan } from '../types';
 
 export const DEFAULT_CELL_COLOR = '#d7ecc8';
 export const DEFAULT_NOTE_COLOR = '#fff8d6';
+export const DEFAULT_CELL_FONT_SIZE = 11;
+export const MIN_CELL_FONT_SIZE = 6;
+export const MAX_CELL_FONT_SIZE = 28;
 const MAX_RECENT_COLORS = 10;
 
 type Selection = { type: 'cell' | 'note'; id: string } | null;
@@ -20,7 +23,7 @@ type Action =
   | { type: 'NEW_PLAN' }
   | { type: 'SET_NAME'; name: string }
   | { type: 'ADD_CELL'; x: number; y: number }
-  | { type: 'UPDATE_CELL'; id: string; patch: Partial<Pick<Cell, 'color' | 'text'>> }
+  | { type: 'UPDATE_CELL'; id: string; patch: Partial<Pick<Cell, 'color' | 'text' | 'fontSize'>> }
   | { type: 'DELETE_CELL'; id: string }
   | { type: 'ADD_NOTE'; x: number; y: number }
   | { type: 'UPDATE_NOTE'; id: string; patch: Partial<Pick<Note, 'color' | 'text' | 'x' | 'y' | 'width' | 'height'>> }
@@ -47,7 +50,7 @@ function reducer(state: State, action: Action): State {
     case 'SET_NAME':
       return { ...state, plan: { ...state.plan, name: action.name }, dirty: true };
     case 'ADD_CELL': {
-      const cell: Cell = { id: newId(), x: action.x, y: action.y, color: DEFAULT_CELL_COLOR, text: '' };
+      const cell: Cell = { id: newId(), x: action.x, y: action.y, color: DEFAULT_CELL_COLOR, text: '', fontSize: DEFAULT_CELL_FONT_SIZE };
       return {
         ...state,
         plan: { ...state.plan, cells: [...state.plan.cells, cell] },
@@ -104,7 +107,7 @@ export function useGardenPlan() {
   const newPlan = useCallback(() => dispatch({ type: 'NEW_PLAN' }), []);
   const setName = useCallback((name: string) => dispatch({ type: 'SET_NAME', name }), []);
   const addCell = useCallback((x: number, y: number) => dispatch({ type: 'ADD_CELL', x, y }), []);
-  const updateCell = useCallback((id: string, patch: Partial<Pick<Cell, 'color' | 'text'>>) => dispatch({ type: 'UPDATE_CELL', id, patch }), []);
+  const updateCell = useCallback((id: string, patch: Partial<Pick<Cell, 'color' | 'text' | 'fontSize'>>) => dispatch({ type: 'UPDATE_CELL', id, patch }), []);
   const deleteCell = useCallback((id: string) => dispatch({ type: 'DELETE_CELL', id }), []);
   const addNote = useCallback((x: number, y: number) => dispatch({ type: 'ADD_NOTE', x, y }), []);
   const updateNote = useCallback(
