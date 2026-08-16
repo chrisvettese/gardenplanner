@@ -19,7 +19,6 @@ export default function PlantIconGrid({ plantIds }: PlantIconGridProps) {
         return (
           <div className="gp-plant-grid__slot" key={`${id}-${i}`}>
             <Icon />
-            <span className="gp-plant-grid__label">{plant.label}</span>
           </div>
         );
       })}

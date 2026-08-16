@@ -11,9 +11,8 @@ interface CellViewProps {
 
 export default function CellView({ cell, selected, onSelect }: CellViewProps) {
   const hasPlants = cell.plants.length > 0;
-  const title = hasPlants
-    ? cell.plants.map((id) => getPlant(id)?.label ?? id).join(', ')
-    : cell.text;
+  const plantNames = hasPlants ? cell.plants.map((id) => getPlant(id)?.label ?? id).join(', ') : '';
+  const title = [cell.text, plantNames].filter(Boolean).join(' — ');
 
   return (
     <div
@@ -32,10 +31,12 @@ export default function CellView({ cell, selected, onSelect }: CellViewProps) {
       }}
       title={title}
     >
-      {hasPlants ? (
-        <PlantIconGrid plantIds={cell.plants} />
-      ) : (
-        <span className="gp-cell__text" style={{ fontSize: cell.fontSize }}>
+      {hasPlants && <PlantIconGrid plantIds={cell.plants} />}
+      {(!hasPlants || cell.text) && (
+        <span
+          className={`gp-cell__text${hasPlants ? ' gp-cell__text--overlay' : ''}`}
+          style={{ fontSize: cell.fontSize }}
+        >
           {cell.text}
         </span>
       )}
