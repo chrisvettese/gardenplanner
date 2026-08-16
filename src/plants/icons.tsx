@@ -43,18 +43,34 @@ export function PepperIcon(props: IconProps) {
 }
 
 export function MelonIcon(props: IconProps) {
-  // Ribs run pole-to-pole (stem end to blossom end), not around the
-  // equator, so they're drawn as curves converging at the top/bottom of
-  // the ellipse rather than horizontal bands.
+  // Ribbed melons read as slim and long, not flat and wide — the body is
+  // an elongated (taller-than-wide) oval, with ribs running pole-to-pole
+  // and a soft highlight down one side for a bit of roundness.
   return (
     <svg {...svgProps} {...props}>
-      <ellipse cx="16" cy="17" rx="11" ry="9" fill="#d8a24a" {...outline} />
-      <path d="M16 8Q6 17 16 26" fill="none" stroke="#a9762c" strokeWidth="1" />
-      <path d="M16 8Q11 17 16 26" fill="none" stroke="#a9762c" strokeWidth="1" />
-      <path d="M16 8L16 26" fill="none" stroke="#a9762c" strokeWidth="1" />
-      <path d="M16 8Q21 17 16 26" fill="none" stroke="#a9762c" strokeWidth="1" />
-      <path d="M16 8Q26 17 16 26" fill="none" stroke="#a9762c" strokeWidth="1" />
-      <rect x="14.6" y="7.4" width="2.8" height="3" rx="1" fill="#5a9e52" />
+      <ellipse cx="16" cy="17" rx="8.5" ry="12" fill="#d9a545" {...outline} />
+      <path d="M16 5Q8.5 17 16 29" fill="none" stroke="#a9762c" strokeWidth="1" />
+      <path d="M16 5Q12 17 16 29" fill="none" stroke="#a9762c" strokeWidth="1" />
+      <path d="M16 5L16 29" fill="none" stroke="#a9762c" strokeWidth="1" />
+      <path d="M16 5Q20 17 16 29" fill="none" stroke="#a9762c" strokeWidth="1" />
+      <path d="M16 5Q23.5 17 16 29" fill="none" stroke="#a9762c" strokeWidth="1" />
+      <path d="M16 6Q11 16 16 27" fill="none" stroke="#f0dba8" strokeWidth="0.9" strokeLinecap="round" opacity="0.7" />
+      <rect x="14.7" y="3" width="2.6" height="3" rx="1" fill="#5a9e52" />
+    </svg>
+  );
+}
+
+export function CarrotIcon(props: IconProps) {
+  return (
+    <svg {...svgProps} {...props}>
+      <path d="M12 11C11 16 12 22 16 29C20 22 21 16 20 11C17.5 9.5 14.5 9.5 12 11Z" fill="#e8792c" {...outline} />
+      <path d="M14.5 14c0.4 4 0.9 7.4 1.5 10.4" fill="none" stroke="#c65f1a" strokeWidth="0.8" opacity="0.6" />
+      <path d="M17.5 14c-0.4 4 -0.9 7.4 -1.5 10.4" fill="none" stroke="#c65f1a" strokeWidth="0.8" opacity="0.6" />
+      <g stroke="#4a8a3a" strokeWidth="1.6" strokeLinecap="round">
+        <path d="M16 11c0 -3.4 0 -6.4 0 -9" />
+        <path d="M16 11c-1.6 -2.8 -2.2 -5.4 -1.6 -8" />
+        <path d="M16 11c1.6 -2.8 2.2 -5.4 1.6 -8" />
+      </g>
     </svg>
   );
 }

@@ -1,6 +1,7 @@
 import type { ComponentType, SVGProps } from 'react';
 import {
   BeanIcon,
+  CarrotIcon,
   CeleryIcon,
   ClementineIcon,
   FigIcon,
@@ -37,6 +38,7 @@ export const PLANT_CATALOG: Plant[] = [
   { id: 'clementine', label: 'Clementine', Icon: ClementineIcon },
   { id: 'raspberry', label: 'Raspberry', Icon: RaspberryIcon },
   { id: 'bean', label: 'Bean', Icon: BeanIcon },
+  { id: 'carrot', label: 'Carrot', Icon: CarrotIcon },
   { id: 'celery', label: 'Celery', Icon: CeleryIcon },
   { id: 'onion', label: 'Onion', Icon: OnionIcon },
   { id: 'basil-genovese', label: 'Genovese Basil', Icon: GenoveseBasilIcon },
