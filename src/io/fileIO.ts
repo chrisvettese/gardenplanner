@@ -47,8 +47,27 @@ export function parsePlan(data: unknown): GardenPlan {
   };
 }
 
+// Images are stored byte-for-byte (see io/clipboardImage.ts), so the
+// clipboard can hand us any image MIME type, not just PNG/JPEG.
+const EXT_TO_MIME: Record<string, string> = {
+  png: 'image/png',
+  jpg: 'image/jpeg',
+  jpeg: 'image/jpeg',
+  gif: 'image/gif',
+  webp: 'image/webp',
+  bmp: 'image/bmp',
+  svg: 'image/svg+xml',
+  avif: 'image/avif',
+};
+const MIME_TO_EXT: Record<string, string> = Object.fromEntries(Object.entries(EXT_TO_MIME).map(([ext, mime]) => [mime, ext]));
+
 function extensionFor(mimeType: string): string {
-  return mimeType === 'image/png' ? 'png' : 'jpg';
+  return MIME_TO_EXT[mimeType] ?? mimeType.split('/')[1]?.replace('+xml', '') ?? 'bin';
+}
+
+function mimeTypeForPath(path: string): string {
+  const ext = path.split('.').pop()?.toLowerCase() ?? '';
+  return EXT_TO_MIME[ext] ?? 'application/octet-stream';
 }
 
 /** Packs the plan + any pasted images into a single zip archive (given a
@@ -85,7 +104,7 @@ function parseArchive(bytes: Uint8Array): { plan: GardenPlan; assets: ImageAsset
   const assets: ImageAssets = new Map();
   const notes = plan.notes.map((note) => {
     if (note.image && files[note.image]) {
-      const blob = new Blob([files[note.image] as BlobPart], { type: note.image.endsWith('.png') ? 'image/png' : 'image/jpeg' });
+      const blob = new Blob([files[note.image] as BlobPart], { type: mimeTypeForPath(note.image) });
       const url = URL.createObjectURL(blob);
       assets.set(url, blob);
       return { ...note, image: url };

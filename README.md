@@ -1,11 +1,10 @@
 # Garden Planner
 
-A tiny, local-first garden bed planner. No account, no server, no
-subscription — just a React app that reads and writes its own
-`.gardenplan` files. Lay out any shape of garden square-by-square,
-color and label each square, pin freeform notes (including pasted
-photos) anywhere on the canvas, and save/reload whenever you want to
-keep working on a plan.
+A garden bed planner: a static React app with no server or account,
+that reads and writes its own `.gardenplan` files. Lay out any shape
+of garden square-by-square, color and label each square, pin freeform
+notes (including pasted photos) anywhere on the canvas, and
+save/reload to continue a plan later.
 
 ## Using it
 
@@ -28,11 +27,11 @@ keep working on a plan.
   its bottom-right corner (visible when selected) to resize it.
 - **Paste an image (Ctrl+V / Cmd+V)** anywhere (not while typing in a
   text field) to drop it as a new note, sized to its own aspect ratio
-  and centered in the current view. It's downscaled and recompressed
-  to JPEG on the way in so a big screenshot doesn't bloat the saved
-  file — fine for reference photos, not meant for pixel-perfect
-  originals. Give it a caption by typing in its editor like any other
-  note; the label renders on top of the photo instead of replacing it.
+  and centered in the current view. Stored byte-for-byte as pasted —
+  no downscaling or recompression — so a big screenshot means a
+  bigger `.gardenplan` file, but nothing about the image is touched.
+  Give it a caption by typing in its editor like any other note; the
+  label renders on top of the photo instead of replacing it.
 - **Pan**: click-drag empty canvas, or the arrow keys.
 - **Zoom**: mouse wheel / trackpad pinch, or the +/− buttons. "Fit"
   frames every square and every note, including ones sitting well
@@ -75,7 +74,9 @@ A `.gardenplan` file is a zip archive (same trick `.docx`/`.pptx` use —
 rename it to `.zip` and any archive tool will happily open it) containing:
 
 - `plan.json` — the plan itself
-- `images/<note-id>.jpg` — one file per note with a pasted image
+- `images/<note-id>.<ext>` — one file per note with a pasted image,
+  stored exactly as pasted (whatever format/extension the clipboard
+  gave it — PNG, JPEG, WebP, GIF, …)
 
 ```json
 {
