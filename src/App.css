@@ -251,6 +251,71 @@ body {
   user-select: none;
 }
 
+.gp-note__markdown > *:first-child {
+  margin-top: 0;
+}
+.gp-note__markdown > *:last-child {
+  margin-bottom: 0;
+}
+.gp-note__markdown p,
+.gp-note__markdown ul,
+.gp-note__markdown ol,
+.gp-note__markdown blockquote,
+.gp-note__markdown pre {
+  margin: 0 0 6px;
+}
+.gp-note__markdown h1,
+.gp-note__markdown h2,
+.gp-note__markdown h3,
+.gp-note__markdown h4,
+.gp-note__markdown h5,
+.gp-note__markdown h6 {
+  margin: 8px 0 4px;
+  font-size: 1.15em;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.gp-note__markdown ul,
+.gp-note__markdown ol {
+  padding-left: 1.3em;
+}
+.gp-note__markdown li {
+  margin: 2px 0;
+}
+.gp-note__markdown code {
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: 0.9em;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 3px;
+  padding: 0 3px;
+}
+.gp-note__markdown pre {
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+  padding: 6px;
+  overflow-x: auto;
+}
+.gp-note__markdown pre code {
+  background: none;
+  padding: 0;
+}
+.gp-note__markdown blockquote {
+  border-left: 3px solid rgba(0, 0, 0, 0.2);
+  padding-left: 8px;
+  color: rgba(28, 28, 28, 0.75);
+}
+.gp-note__markdown a {
+  color: #2b6cb0;
+}
+.gp-note__markdown hr {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+  margin: 8px 0;
+}
+.gp-note__markdown img {
+  max-width: 100%;
+}
+
 .gp-note__text--caption {
   position: absolute;
   left: 0;
@@ -310,6 +375,15 @@ body {
   resize: vertical;
   background: var(--gp-bg);
   color: var(--gp-text);
+}
+
+.gp-popover__markdown {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--gp-muted);
+  cursor: pointer;
 }
 
 .gp-popover__plants {

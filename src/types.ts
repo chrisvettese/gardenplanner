@@ -25,6 +25,9 @@ export interface Note {
   /** A blob: URL while the app is open (see io/imageAssets.ts); a relative
    * path like "images/<id>.jpg" inside a saved .gardenplan zip. */
   image?: string;
+  /** Render `text` as Markdown instead of plain text. Off by default —
+   * only notes opt in, cell labels never support it. */
+  markdown?: boolean;
 }
 
 export interface GardenPlan {

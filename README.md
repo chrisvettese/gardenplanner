@@ -24,7 +24,10 @@ save/reload to continue a plan later.
 - **+ Note** adds a freeform text box anywhere on the canvas — for
   things like a spray schedule or a legend that isn't tied to one
   square. Drag it by its body to reposition it, or drag the handle at
-  its bottom-right corner (visible when selected) to resize it.
+  its bottom-right corner (visible when selected) to resize it. Check
+  "Render as Markdown" in its editor to format the text (headings,
+  bold/italic, lists, links, code, blockquotes) instead of showing it
+  as plain text — off by default. Cell labels don't support this.
 - **Paste an image (Ctrl+V / Cmd+V)** anywhere (not while typing in a
   text field) to drop it as a new note, sized to its own aspect ratio
   and centered in the current view. Stored byte-for-byte as pasted —
@@ -84,7 +87,7 @@ rename it to `.zip` and any archive tool will happily open it) containing:
   "name": "2026 Plants - June Update",
   "cells": [{ "id": "…", "x": 0, "y": 0, "color": "#d7ecc8", "text": "Melon", "fontSize": 11, "plants": ["tomato", "tomato", "pepper"] }],
   "notes": [
-    { "id": "…", "x": 820, "y": 40, "width": 220, "height": 140, "color": "#fff8d6", "text": "Koppert biweekly…" },
+    { "id": "…", "x": 820, "y": 40, "width": 220, "height": 140, "color": "#fff8d6", "text": "**Koppert** biweekly…", "markdown": true },
     { "id": "abc123", "x": 300, "y": 500, "width": 240, "height": 160, "color": "#fff8d6", "text": "", "image": "images/abc123.jpg" }
   ]
 }

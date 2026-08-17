@@ -26,7 +26,7 @@ type Action =
   | { type: 'UPDATE_CELL'; id: string; patch: Partial<Pick<Cell, 'color' | 'text' | 'fontSize' | 'plants'>> }
   | { type: 'DELETE_CELL'; id: string }
   | { type: 'ADD_NOTE'; x: number; y: number; width?: number; height?: number; image?: string }
-  | { type: 'UPDATE_NOTE'; id: string; patch: Partial<Pick<Note, 'color' | 'text' | 'x' | 'y' | 'width' | 'height'>> }
+  | { type: 'UPDATE_NOTE'; id: string; patch: Partial<Pick<Note, 'color' | 'text' | 'x' | 'y' | 'width' | 'height' | 'markdown'>> }
   | { type: 'DELETE_NOTE'; id: string }
   | { type: 'SELECT'; selection: Selection }
   | { type: 'MARK_SAVED' };
@@ -124,7 +124,7 @@ export function useGardenPlan() {
     [],
   );
   const updateNote = useCallback(
-    (id: string, patch: Partial<Pick<Note, 'color' | 'text' | 'x' | 'y' | 'width' | 'height'>>) => dispatch({ type: 'UPDATE_NOTE', id, patch }),
+    (id: string, patch: Partial<Pick<Note, 'color' | 'text' | 'x' | 'y' | 'width' | 'height' | 'markdown'>>) => dispatch({ type: 'UPDATE_NOTE', id, patch }),
     [],
   );
   const deleteNote = useCallback((id: string) => dispatch({ type: 'DELETE_NOTE', id }), []);

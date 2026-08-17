@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import Markdown from 'markdown-to-jsx';
 import type { Note } from '../types';
 
 const MIN_NOTE_SIZE = 48;
@@ -75,7 +76,17 @@ export default function NoteView({ note, selected, scale, onSelect, onMove, onRe
       {note.image && <img src={note.image} alt="" className="gp-note__image" draggable={false} />}
       {(note.text || !note.image) && (
         <div className={`gp-note__text${note.image ? ' gp-note__text--caption' : ''}`}>
-          {note.text || (note.image ? '' : 'Note')}
+          {note.text ? (
+            note.markdown ? (
+              <Markdown options={{ disableParsingRawHTML: true, forceBlock: true }} className="gp-note__markdown">
+                {note.text}
+              </Markdown>
+            ) : (
+              note.text
+            )
+          ) : (
+            note.image ? '' : 'Note'
+          )}
         </div>
       )}
       {selected && (

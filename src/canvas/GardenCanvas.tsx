@@ -16,7 +16,7 @@ interface GardenCanvasProps {
   onAddCell: (x: number, y: number) => void;
   onUpdateCell: (id: string, patch: { color?: string; text?: string; fontSize?: number; plants?: string[] }) => void;
   onDeleteCell: (id: string) => void;
-  onUpdateNote: (id: string, patch: { color?: string; text?: string; x?: number; y?: number; width?: number; height?: number }) => void;
+  onUpdateNote: (id: string, patch: { color?: string; text?: string; x?: number; y?: number; width?: number; height?: number; markdown?: boolean }) => void;
   onDeleteNote: (id: string) => void;
   onSelect: (selection: Selection) => void;
 }
@@ -237,6 +237,8 @@ export default function GardenCanvas({
               onChangeColor={(color) => onUpdateNote(selectedNote.id, { color })}
               onDelete={() => onDeleteNote(selectedNote.id)}
               onClose={() => onSelect(null)}
+              markdown={!!selectedNote.markdown}
+              onChangeMarkdown={(markdown) => onUpdateNote(selectedNote.id, { markdown })}
             />
           );
         })()}

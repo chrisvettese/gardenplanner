@@ -20,6 +20,9 @@ interface EditPopoverProps {
   onChangeFontSize?: (fontSize: number) => void;
   plants?: string[];
   onChangePlants?: (plants: string[]) => void;
+  /** Only notes support Markdown rendering; omit for squares. */
+  markdown?: boolean;
+  onChangeMarkdown?: (markdown: boolean) => void;
 }
 
 export default function EditPopover({
@@ -37,6 +40,8 @@ export default function EditPopover({
   onChangeFontSize,
   plants,
   onChangePlants,
+  markdown,
+  onChangeMarkdown,
 }: EditPopoverProps) {
   const textRef = useRef<HTMLTextAreaElement>(null);
 
@@ -59,6 +64,12 @@ export default function EditPopover({
           if (e.key === 'Escape') onClose();
         }}
       />
+      {markdown !== undefined && onChangeMarkdown && (
+        <label className="gp-popover__markdown">
+          <input type="checkbox" checked={markdown} onChange={(e) => onChangeMarkdown(e.target.checked)} />
+          Render as Markdown
+        </label>
+      )}
       {plants !== undefined && onChangePlants && (
         <div className="gp-popover__plants">
           <div className="gp-popover__plants-header">
