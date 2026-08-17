@@ -25,9 +25,9 @@ save/reload to continue a plan later.
   things like a spray schedule or a legend that isn't tied to one
   square. Drag it by its body to reposition it, or drag the handle at
   its bottom-right corner (visible when selected) to resize it. Check
-  "Render as Markdown" in its editor to format the text (headings,
-  bold/italic, lists, links, code, blockquotes) instead of showing it
-  as plain text — off by default. Cell labels don't support this.
+  "Markdown" in its editor to format the text (headings, bold/italic,
+  lists, links, code, blockquotes) instead of showing it as plain
+  text — off by default. Cell labels don't support this.
 - **Paste an image (Ctrl+V / Cmd+V)** anywhere (not while typing in a
   text field) to drop it as a new note, sized to its own aspect ratio
   and centered in the current view. Stored byte-for-byte as pasted —
@@ -102,11 +102,12 @@ automatically), it just won't have any `images/` folder to draw from.
 
 ## Plant catalog
 
-19 plants so far ([src/plants/catalog.ts](src/plants/catalog.ts), icons
+22 plants so far ([src/plants/catalog.ts](src/plants/catalog.ts), icons
 in [src/plants/icons.tsx](src/plants/icons.tsx)): tomato, pepper, melon,
 watermelon, fig, clementine, raspberry, bean, carrot, celery, onion,
-Genovese basil, Thai basil, rosemary, sunflower, morning glory,
-mandevilla, heliotrope, pelargonium. Adding more later is just adding
+bunching onion, Genovese basil, Thai basil, parsley, rosemary,
+sunflower, morning glory, mandevilla, heliotrope, pelargonium, ice
+plant. Adding more later is just adding
 a catalog entry + icon component.
 
 ## Not in the MVP yet

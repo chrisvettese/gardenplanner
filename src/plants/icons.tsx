@@ -101,9 +101,14 @@ export function FigIcon(props: IconProps) {
 }
 
 export function RaspberryIcon(props: IconProps) {
+  // The 6 drupelets used to ring an empty center with nothing filling it,
+  // reading as a hollow donut rather than a packed berry. A 7th circle in
+  // the middle (drawn first, so the ring's outlines settle on top of it)
+  // fills that hole in.
   return (
     <svg {...svgProps} {...props}>
       <g fill="#b23a5e" {...outline}>
+        <circle cx="16" cy="16.5" r="3.3" />
         <circle cx="16" cy="11.6" r="3.1" />
         <circle cx="11.6" cy="14.6" r="3.1" />
         <circle cx="20.4" cy="14.6" r="3.1" />
@@ -310,6 +315,89 @@ export function ClementineIcon(props: IconProps) {
       <circle cx="16" cy="18" r="1" fill="#c96f1a" />
       <path d="M16 8.5c3 -3 6 -2 6.5 0.5c-2 -0.6 -3.6 0 -4.6 1.4z" fill="#5a9e52" {...outline} />
       <rect x="15.3" y="7" width="1.4" height="2.5" rx="0.6" fill="#6b4a2a" />
+    </svg>
+  );
+}
+
+// A trefoil (3-lobed) leaflet cluster — the building block of the parsley
+// sprig below. Curly parsley reads as fluffy/textured rather than a single
+// smooth leaf, so the plant is built from several small clover-like blobs.
+function TrefoilLeaflet({ cx, cy, scale = 1, rotate = 0 }: { cx: number; cy: number; scale?: number; rotate?: number }) {
+  const r = 2.1 * scale;
+  return (
+    <g transform={`translate(${cx} ${cy}) rotate(${rotate})`} fill="#7cb342" {...outline}>
+      <circle cx={0} cy={-r * 0.9} r={r} />
+      <circle cx={-r * 0.9} cy={r * 0.55} r={r} />
+      <circle cx={r * 0.9} cy={r * 0.55} r={r} />
+    </g>
+  );
+}
+
+export function ParsleyIcon(props: IconProps) {
+  return (
+    <svg {...svgProps} {...props}>
+      <g stroke="#4a7a3a" strokeWidth="1.1" fill="none" strokeLinecap="round">
+        <path d="M16 28C16 22 16 17 16 12" />
+        <path d="M16 21c-2 -3 -4.5 -5 -7.5 -6" />
+        <path d="M16 21c2 -3 4.5 -5 7.5 -6" />
+        <path d="M16 16c-1.6 -2.4 -3.6 -4 -6 -5" />
+        <path d="M16 16c1.6 -2.4 3.6 -4 6 -5" />
+      </g>
+      <TrefoilLeaflet cx={16} cy={9} scale={1.1} />
+      <TrefoilLeaflet cx={7.5} cy={13.5} scale={0.9} rotate={-25} />
+      <TrefoilLeaflet cx={24.5} cy={13.5} scale={0.9} rotate={25} />
+      <TrefoilLeaflet cx={9} cy={19} scale={0.85} rotate={-18} />
+      <TrefoilLeaflet cx={23} cy={19} scale={0.85} rotate={18} />
+    </svg>
+  );
+}
+
+// Bunching (green/spring) onions: no bulb — just tapering hollow green
+// blades rising from pale, straight (not round) white stems, with a few
+// wispy roots. The pale rectangular base is what separates this from the
+// round-bulb OnionIcon below.
+export function BunchingOnionIcon(props: IconProps) {
+  return (
+    <svg {...svgProps} {...props}>
+      <g stroke="#c9a86a" strokeWidth="1" strokeLinecap="round">
+        <path d="M11 28c-0.8 1.4 -0.8 2.6 0 3.4" />
+        <path d="M16 28.5c0 1.6 0 2.6 0 3.5" />
+        <path d="M21 28c0.8 1.4 0.8 2.6 0 3.4" />
+      </g>
+      <g fill="#eef6df" {...outline}>
+        <rect x="10.5" y="20" width="2.6" height="8" rx="1.3" />
+        <rect x="14.7" y="21" width="2.6" height="7" rx="1.3" />
+        <rect x="18.9" y="21" width="2.6" height="7" rx="1.3" />
+      </g>
+      <g fill="#5a9e52" {...outline}>
+        <path d="M11.8 21C10 15 9.5 9 11 3.5C12.6 9 13 15 13.4 21Z" />
+        <path d="M16 22C15 15.5 15 9.5 16 4C17 9.5 17 15.5 16 22Z" />
+        <path d="M20.2 21C22 15 22.5 9 21 3.5C19.4 9 19 15 18.6 21Z" />
+      </g>
+    </svg>
+  );
+}
+
+// Ice plant (Delosperma): a groundcover succulent, identified by its
+// starburst of many thin needle-like petals (unlike the broad-petaled
+// SunflowerIcon) in a vivid magenta, plus the fleshy, pointed succulent
+// leaves it grows low to the ground.
+export function IcePlantIcon(props: IconProps) {
+  const petalAngles = Array.from({ length: 20 }, (_, i) => i * 18);
+  return (
+    <svg {...svgProps} {...props}>
+      <g fill="#3f7d3a" {...outline}>
+        <ellipse cx="10" cy="24" rx="2.6" ry="5.2" transform="rotate(-25 10 24)" />
+        <ellipse cx="22" cy="24" rx="2.6" ry="5.2" transform="rotate(25 22 24)" />
+        <ellipse cx="16" cy="26" rx="2.4" ry="5.4" />
+      </g>
+      <g fill="#e0389f" {...outline}>
+        {petalAngles.map((angle) => (
+          <rect key={angle} x="15.3" y="4" width="1.4" height="9" rx="0.7" transform={`rotate(${angle} 16 16)`} />
+        ))}
+      </g>
+      <circle cx="16" cy="16" r="3" fill="#fff6d8" {...outline} />
+      <circle cx="16" cy="16" r="1.2" fill="#f2c94c" />
     </svg>
   );
 }

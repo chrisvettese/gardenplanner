@@ -1,16 +1,19 @@
 import type { ComponentType, SVGProps } from 'react';
 import {
   BeanIcon,
+  BunchingOnionIcon,
   CarrotIcon,
   CeleryIcon,
   ClementineIcon,
   FigIcon,
   GenoveseBasilIcon,
   HeliotropeIcon,
+  IcePlantIcon,
   MandevillaIcon,
   MelonIcon,
   MorningGloryIcon,
   OnionIcon,
+  ParsleyIcon,
   PelargoniumIcon,
   PepperIcon,
   RaspberryIcon,
@@ -41,14 +44,17 @@ export const PLANT_CATALOG: Plant[] = [
   { id: 'carrot', label: 'Carrot', Icon: CarrotIcon },
   { id: 'celery', label: 'Celery', Icon: CeleryIcon },
   { id: 'onion', label: 'Onion', Icon: OnionIcon },
+  { id: 'bunching-onion', label: 'Bunching Onion', Icon: BunchingOnionIcon },
   { id: 'basil-genovese', label: 'Genovese Basil', Icon: GenoveseBasilIcon },
   { id: 'basil-thai', label: 'Thai Basil', Icon: ThaiBasilIcon },
+  { id: 'parsley', label: 'Parsley', Icon: ParsleyIcon },
   { id: 'rosemary', label: 'Rosemary', Icon: RosemaryIcon },
   { id: 'sunflower', label: 'Sunflower', Icon: SunflowerIcon },
   { id: 'morning-glory', label: 'Morning Glory', Icon: MorningGloryIcon },
   { id: 'mandevilla', label: 'Mandevilla', Icon: MandevillaIcon },
   { id: 'heliotrope', label: 'Heliotrope', Icon: HeliotropeIcon },
   { id: 'pelargonium', label: 'Pelargonium', Icon: PelargoniumIcon },
+  { id: 'ice-plant', label: 'Ice Plant', Icon: IcePlantIcon },
 ];
 
 const BY_ID = new Map(PLANT_CATALOG.map((p) => [p.id, p]));

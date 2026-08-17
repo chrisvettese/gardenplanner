@@ -67,7 +67,7 @@ export default function EditPopover({
       {markdown !== undefined && onChangeMarkdown && (
         <label className="gp-popover__markdown">
           <input type="checkbox" checked={markdown} onChange={(e) => onChangeMarkdown(e.target.checked)} />
-          Render as Markdown
+          Markdown
         </label>
       )}
       {plants !== undefined && onChangePlants && (
