@@ -328,29 +328,31 @@ export function PelargoniumIcon(props: IconProps) {
 // narrow blade ending in a 3-point fringed/serrated tip — that ragged edge
 // (not a smooth round or lobed one) is what reads as a carnation rather
 // than any other flower in the catalog.
-const CARNATION_PETAL = 'M0 0 C -2 -6 -2 -9 -2.2 -10.5 L -0.9 -9 L 0 -11 L 0.9 -9 L 2.2 -10.5 C 2 -9 2 -6 0 0 Z';
+// A ring of overlapping circles reads as a soft, round, ruffled lobe —
+// unlike a pointed petal shape, there's no way for it to look spiky.
+// Stacking 3 rings (coarse to fine, dark to light) builds carnation's dense,
+// rounded, many-layered pom-pom head.
+function carnationRing(count: number, dist: number, r: number, angleOffset: number, cx: number, cy: number, fill: string) {
+  return Array.from({ length: count }, (_, i) => {
+    const angle = ((360 / count) * i + angleOffset) * (Math.PI / 180);
+    return <circle key={`${dist}-${i}`} cx={cx + Math.sin(angle) * dist} cy={cy - Math.cos(angle) * dist} r={r} fill={fill} {...outline} />;
+  });
+}
 
 export function CarnationIcon(props: IconProps) {
-  const outerAngles = Array.from({ length: 11 }, (_, i) => i * (360 / 11));
-  const innerAngles = Array.from({ length: 9 }, (_, i) => i * (360 / 9) + 18);
+  const cx = 16;
+  const cy = 14;
   return (
     <svg {...svgProps} {...props}>
-      <path d="M16 28C16 24 16 20 16 17" fill="none" stroke="#5a8a6a" strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M16 28C16 25 16 23 16 21.5" fill="none" stroke="#5a8a6a" strokeWidth="1.6" strokeLinecap="round" />
       <g stroke="#6a9a7a" strokeWidth="1.3" strokeLinecap="round" fill="none">
-        <path d="M16 24c-1.8 -0.8 -3.4 -2.2 -4.2 -4" />
-        <path d="M16 24c1.8 -0.8 3.4 -2.2 4.2 -4" />
+        <path d="M16 24.5c-1.8 -0.8 -3.4 -2.2 -4.2 -4" />
+        <path d="M16 24.5c1.8 -0.8 3.4 -2.2 4.2 -4" />
       </g>
-      <g fill="#c73e66" {...outline}>
-        {outerAngles.map((a) => (
-          <path key={`o${a}`} d={CARNATION_PETAL} transform={`translate(16 17) rotate(${a}) scale(1.05)`} />
-        ))}
-      </g>
-      <g fill="#e0567e" {...outline}>
-        {innerAngles.map((a) => (
-          <path key={`i${a}`} d={CARNATION_PETAL} transform={`translate(16 17) rotate(${a}) scale(0.72)`} />
-        ))}
-      </g>
-      <circle cx="16" cy="17.5" r="1.6" fill="#f2a8c0" />
+      <g>{carnationRing(12, 6.3, 2.9, 0, cx, cy, '#c73e66')}</g>
+      <g>{carnationRing(9, 3.9, 2.6, 15, cx, cy, '#e0567e')}</g>
+      <g>{carnationRing(6, 1.8, 2, 30, cx, cy, '#ef90b2')}</g>
+      <circle cx={cx} cy={cy} r="1.3" fill="#fbdce6" />
     </svg>
   );
 }
