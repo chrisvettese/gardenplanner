@@ -20,7 +20,9 @@ save/reload to continue a plan later.
   of its text label, arranged in a grid that gets denser as you add
   more (1 big icon, up to a 3x3 of small ones for 9). Click the square
   to see each one paired with its name again if it's not obvious at a
-  glance.
+  glance. The ⟳ button next to "Plants" (shown once you've picked more
+  than one) swaps the grid's rows and columns — e.g. 2 plants go from
+  side-by-side to stacked — without rotating the icons themselves.
 - **+ Note** adds a freeform text box anywhere on the canvas — for
   things like a spray schedule or a legend that isn't tied to one
   square. Drag it by its body to reposition it, or drag the handle at
@@ -102,12 +104,12 @@ automatically), it just won't have any `images/` folder to draw from.
 
 ## Plant catalog
 
-22 plants so far ([src/plants/catalog.ts](src/plants/catalog.ts), icons
+24 plants so far ([src/plants/catalog.ts](src/plants/catalog.ts), icons
 in [src/plants/icons.tsx](src/plants/icons.tsx)): tomato, pepper, melon,
 watermelon, fig, clementine, raspberry, bean, carrot, celery, onion,
-bunching onion, Genovese basil, Thai basil, parsley, rosemary,
-sunflower, morning glory, mandevilla, heliotrope, pelargonium, ice
-plant. Adding more later is just adding
+bunching onion, garlic chives, potato, Genovese basil, Thai basil,
+parsley, rosemary, sunflower, morning glory, mandevilla, heliotrope,
+pelargonium, ice plant. Adding more later is just adding
 a catalog entry + icon component.
 
 ## Not in the MVP yet

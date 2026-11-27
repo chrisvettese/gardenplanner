@@ -14,7 +14,7 @@ interface GardenCanvasProps {
   viewport: Viewport;
   onViewportChange: (v: Viewport) => void;
   onAddCell: (x: number, y: number) => void;
-  onUpdateCell: (id: string, patch: { color?: string; text?: string; fontSize?: number; plants?: string[] }) => void;
+  onUpdateCell: (id: string, patch: { color?: string; text?: string; fontSize?: number; plants?: string[]; rotated?: boolean }) => void;
   onDeleteCell: (id: string) => void;
   onUpdateNote: (id: string, patch: { color?: string; text?: string; x?: number; y?: number; width?: number; height?: number; markdown?: boolean }) => void;
   onDeleteNote: (id: string) => void;
@@ -102,6 +102,10 @@ export default function GardenCanvas({
     const el = containerRef.current;
     if (!el) return;
     function onWheel(e: WheelEvent) {
+      // The popover (and its scrollable plant list) renders inside this same
+      // container, so without this check every scroll in it zoomed the
+      // canvas instead of scrolling the list.
+      if ((e.target as Element).closest('.gp-popover')) return;
       e.preventDefault();
       const { viewport, onViewportChange } = latest.current;
       const rect = el!.getBoundingClientRect();
@@ -218,6 +222,8 @@ export default function GardenCanvas({
               onChangeFontSize={(fontSize) => onUpdateCell(selectedCell.id, { fontSize })}
               plants={selectedCell.plants}
               onChangePlants={(plants) => onUpdateCell(selectedCell.id, { plants })}
+              rotated={selectedCell.rotated}
+              onChangeRotated={(rotated) => onUpdateCell(selectedCell.id, { rotated })}
             />
           );
         })()}

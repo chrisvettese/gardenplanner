@@ -31,7 +31,7 @@ export default function CellView({ cell, selected, onSelect }: CellViewProps) {
       }}
       title={title}
     >
-      {hasPlants && <PlantIconGrid plantIds={cell.plants} />}
+      {hasPlants && <PlantIconGrid plantIds={cell.plants} rotated={cell.rotated} />}
       {(!hasPlants || cell.text) && (
         <span
           className={`gp-cell__text${hasPlants ? ' gp-cell__text--overlay' : ''}`}

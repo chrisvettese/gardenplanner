@@ -400,8 +400,20 @@ body {
   color: var(--gp-muted);
 }
 
+.gp-popover__plants-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .gp-popover__plants-count {
   font-variant-numeric: tabular-nums;
+}
+
+.gp-btn--rotate {
+  padding: 1px 6px;
+  font-size: 14px;
+  line-height: 1.4;
 }
 
 .gp-plant-palette {

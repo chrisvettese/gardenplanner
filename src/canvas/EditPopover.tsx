@@ -20,6 +20,8 @@ interface EditPopoverProps {
   onChangeFontSize?: (fontSize: number) => void;
   plants?: string[];
   onChangePlants?: (plants: string[]) => void;
+  rotated?: boolean;
+  onChangeRotated?: (rotated: boolean) => void;
   /** Only notes support Markdown rendering; omit for squares. */
   markdown?: boolean;
   onChangeMarkdown?: (markdown: boolean) => void;
@@ -40,6 +42,8 @@ export default function EditPopover({
   onChangeFontSize,
   plants,
   onChangePlants,
+  rotated,
+  onChangeRotated,
   markdown,
   onChangeMarkdown,
 }: EditPopoverProps) {
@@ -74,8 +78,21 @@ export default function EditPopover({
         <div className="gp-popover__plants">
           <div className="gp-popover__plants-header">
             <span>Plants</span>
-            <span className="gp-popover__plants-count">
-              {plants.length}/{MAX_PLANTS_PER_CELL}
+            <span className="gp-popover__plants-header-right">
+              {plants.length > 1 && onChangeRotated && (
+                <button
+                  type="button"
+                  className="gp-btn gp-btn--rotate"
+                  title="Rotate icon layout"
+                  aria-label="Rotate icon layout"
+                  onClick={() => onChangeRotated(!rotated)}
+                >
+                  ⟳
+                </button>
+              )}
+              <span className="gp-popover__plants-count">
+                {plants.length}/{MAX_PLANTS_PER_CELL}
+              </span>
             </span>
           </div>
           <div className="gp-plant-palette">

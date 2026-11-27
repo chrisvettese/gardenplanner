@@ -402,6 +402,48 @@ export function IcePlantIcon(props: IconProps) {
   );
 }
 
+// Garlic chives: flat, narrow leaf blades (not the round hollow tubes of
+// bunching onions) topped with a cluster of small white star-shaped
+// flowers — the flower umbel is what makes this plant unmistakable.
+export function GarlicChivesIcon(props: IconProps) {
+  const petalAngles = [0, 60, 120, 180, 240, 300];
+  return (
+    <svg {...svgProps} {...props}>
+      <g fill="#5a9e52" {...outline}>
+        <path d="M13.2 29C12 21 12.5 14 14.5 8C15.3 14.5 15 21.5 14.6 29Z" />
+        <path d="M18.8 29C20 21 19.5 14 17.5 8C16.7 14.5 17 21.5 17.4 29Z" />
+        <path d="M16 29C15.3 21 15.5 13.5 16 7C16.7 13.5 16.5 21 16 29Z" />
+      </g>
+      <path d="M16 18c0 -5 0 -9.5 0 -12.5" fill="none" stroke="#4a8a3a" strokeWidth="1.2" strokeLinecap="round" />
+      <g fill="#ffffff" {...outline}>
+        {petalAngles.map((a) => (
+          <ellipse key={a} cx="16" cy="2.6" rx="1.4" ry="2.4" transform={`rotate(${a} 16 5.5)`} />
+        ))}
+      </g>
+      <circle cx="16" cy="5.5" r="1" fill="#f2c94c" />
+    </svg>
+  );
+}
+
+// Potato: shown as the harvested tubers (same convention as carrot/onion in
+// this catalog) — a couple of knobby brown ovals with small eye dots, not a
+// above-ground plant.
+export function PotatoIcon(props: IconProps) {
+  return (
+    <svg {...svgProps} {...props}>
+      <ellipse cx="12.5" cy="20" rx="7" ry="5.4" fill="#c69856" transform="rotate(-12 12.5 20)" {...outline} />
+      <ellipse cx="21" cy="15" rx="6" ry="4.6" fill="#d4a868" transform="rotate(10 21 15)" {...outline} />
+      <g fill="#8a6433">
+        <circle cx="10" cy="19" r="0.7" />
+        <circle cx="14.5" cy="22" r="0.7" />
+        <circle cx="9.5" cy="22.5" r="0.7" />
+        <circle cx="19.5" cy="14" r="0.7" />
+        <circle cx="23" cy="16.5" r="0.7" />
+      </g>
+    </svg>
+  );
+}
+
 export function OnionIcon(props: IconProps) {
   return (
     <svg {...svgProps} {...props}>

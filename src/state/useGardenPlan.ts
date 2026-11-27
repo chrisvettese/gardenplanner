@@ -23,7 +23,7 @@ type Action =
   | { type: 'NEW_PLAN' }
   | { type: 'SET_NAME'; name: string }
   | { type: 'ADD_CELL'; x: number; y: number }
-  | { type: 'UPDATE_CELL'; id: string; patch: Partial<Pick<Cell, 'color' | 'text' | 'fontSize' | 'plants'>> }
+  | { type: 'UPDATE_CELL'; id: string; patch: Partial<Pick<Cell, 'color' | 'text' | 'fontSize' | 'plants' | 'rotated'>> }
   | { type: 'DELETE_CELL'; id: string }
   | { type: 'ADD_NOTE'; x: number; y: number; width?: number; height?: number; image?: string }
   | { type: 'UPDATE_NOTE'; id: string; patch: Partial<Pick<Note, 'color' | 'text' | 'x' | 'y' | 'width' | 'height' | 'markdown'>> }
@@ -116,7 +116,7 @@ export function useGardenPlan() {
   const newPlan = useCallback(() => dispatch({ type: 'NEW_PLAN' }), []);
   const setName = useCallback((name: string) => dispatch({ type: 'SET_NAME', name }), []);
   const addCell = useCallback((x: number, y: number) => dispatch({ type: 'ADD_CELL', x, y }), []);
-  const updateCell = useCallback((id: string, patch: Partial<Pick<Cell, 'color' | 'text' | 'fontSize' | 'plants'>>) => dispatch({ type: 'UPDATE_CELL', id, patch }), []);
+  const updateCell = useCallback((id: string, patch: Partial<Pick<Cell, 'color' | 'text' | 'fontSize' | 'plants' | 'rotated'>>) => dispatch({ type: 'UPDATE_CELL', id, patch }), []);
   const deleteCell = useCallback((id: string) => dispatch({ type: 'DELETE_CELL', id }), []);
   const addNote = useCallback(
     (x: number, y: number, opts?: { width?: number; height?: number; image?: string }) =>
