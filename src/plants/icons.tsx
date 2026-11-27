@@ -228,6 +228,27 @@ export function PinkCeleryIcon(props: IconProps) {
   );
 }
 
+// Bok choy: wide, flat, pale spoon-shaped stalks (not thin ribbed ones like
+// celery) fanning from a common base, topped with broad dark green leaves —
+// that stalk-vs-leaf contrast (pale and wide below, dark and round above) is
+// what reads as bok choy rather than any of the celery variants.
+export function BokChoyIcon(props: IconProps) {
+  return (
+    <svg {...svgProps} {...props}>
+      <g fill="#eaf2db" {...outline}>
+        <path d="M9.5 28C8.6 23 9 18 11.2 13.5C12.3 16.5 12.6 22 12 28Z" />
+        <path d="M22.5 28C23.4 23 23 18 20.8 13.5C19.7 16.5 19.4 22 20 28Z" />
+        <path d="M14 28C13.2 22 13.4 16.5 16 12C18.6 16.5 18.8 22 18 28Z" />
+      </g>
+      <g fill="#3f7d3a" {...outline}>
+        <ellipse cx="10.5" cy="11.5" rx="4.3" ry="3.3" transform="rotate(-28 10.5 11.5)" />
+        <ellipse cx="21.5" cy="11.5" rx="4.3" ry="3.3" transform="rotate(28 21.5 11.5)" />
+        <ellipse cx="16" cy="8.8" rx="4.7" ry="3.6" />
+      </g>
+    </svg>
+  );
+}
+
 // Morning glory: a flat, fused trumpet disc — the petals never separate,
 // they just crease where they would meet, with a pale five-point star
 // bleeding out from the throat. Wide open, almost 2D.
