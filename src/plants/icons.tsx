@@ -212,6 +212,22 @@ export function CeleryIcon(props: IconProps) {
   );
 }
 
+// Pink (Chinese) celery: the same ribbed-stalk shape as regular celery, but
+// the stalks themselves are rosy pink rather than pale green — the leaves
+// on top stay green either way.
+export function PinkCeleryIcon(props: IconProps) {
+  return (
+    <svg {...svgProps} {...props}>
+      <rect x="10.5" y="12" width="3" height="16" rx="1.5" fill="#e3a0ab" {...outline} />
+      <rect x="14.5" y="10" width="3" height="18" rx="1.5" fill="#edb6c0" {...outline} />
+      <rect x="18.5" y="12" width="3" height="16" rx="1.5" fill="#e3a0ab" {...outline} />
+      <circle cx="12" cy="10" r="2.2" fill="#5a9e52" {...outline} />
+      <circle cx="16" cy="8" r="2.4" fill="#4f9153" {...outline} />
+      <circle cx="20" cy="10" r="2.2" fill="#5a9e52" {...outline} />
+    </svg>
+  );
+}
+
 // Morning glory: a flat, fused trumpet disc — the petals never separate,
 // they just crease where they would meet, with a pale five-point star
 // bleeding out from the throat. Wide open, almost 2D.

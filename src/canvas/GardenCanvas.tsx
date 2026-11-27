@@ -208,6 +208,7 @@ export default function GardenCanvas({
           const pos = worldToScreen(selectedCell.x * CELL_SIZE + CELL_SIZE + 10, selectedCell.y * CELL_SIZE, viewport);
           return (
             <EditPopover
+              key={selectedCell.id}
               x={pos.x}
               y={pos.y}
               text={selectedCell.text}
@@ -233,6 +234,7 @@ export default function GardenCanvas({
           const pos = worldToScreen(selectedNote.x + selectedNote.width + 10, selectedNote.y, viewport);
           return (
             <EditPopover
+              key={selectedNote.id}
               x={pos.x}
               y={pos.y}
               text={selectedNote.text}

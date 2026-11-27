@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { MAX_CELL_FONT_SIZE, MIN_CELL_FONT_SIZE } from '../state/useGardenPlan';
 import { MAX_PLANTS_PER_CELL, PLANT_CATALOG, getPlant } from '../plants/catalog';
 
@@ -48,6 +48,7 @@ export default function EditPopover({
   onChangeMarkdown,
 }: EditPopoverProps) {
   const textRef = useRef<HTMLTextAreaElement>(null);
+  const [plantSearch, setPlantSearch] = useState('');
 
   useEffect(() => {
     textRef.current?.focus();
@@ -55,6 +56,7 @@ export default function EditPopover({
   }, []);
 
   const swatches = [...new Set([...recentColors, ...PRESET_COLORS])].slice(0, 12);
+  const filteredPlants = PLANT_CATALOG.filter((p) => p.label.toLowerCase().includes(plantSearch.trim().toLowerCase()));
 
   return (
     <div className="gp-popover" style={{ left: x, top: y }} onPointerDown={(e) => e.stopPropagation()} onClick={(e) => e.stopPropagation()}>
@@ -95,25 +97,36 @@ export default function EditPopover({
               </span>
             </span>
           </div>
-          <div className="gp-plant-palette">
-            {PLANT_CATALOG.map((p) => {
-              const Icon = p.Icon;
-              const full = plants.length >= MAX_PLANTS_PER_CELL;
-              return (
-                <button
-                  key={p.id}
-                  type="button"
-                  className="gp-plant-palette__btn"
-                  disabled={full}
-                  title={`Add ${p.label}`}
-                  onClick={() => onChangePlants([...plants, p.id])}
-                >
-                  <Icon />
-                  <span>{p.label}</span>
-                </button>
-              );
-            })}
-          </div>
+          <input
+            type="text"
+            className="gp-popover__plant-search"
+            placeholder="Search plants…"
+            value={plantSearch}
+            onChange={(e) => setPlantSearch(e.target.value)}
+          />
+          {filteredPlants.length > 0 ? (
+            <div className="gp-plant-palette">
+              {filteredPlants.map((p) => {
+                const Icon = p.Icon;
+                const full = plants.length >= MAX_PLANTS_PER_CELL;
+                return (
+                  <button
+                    key={p.id}
+                    type="button"
+                    className="gp-plant-palette__btn"
+                    disabled={full}
+                    title={`Add ${p.label}`}
+                    onClick={() => onChangePlants([...plants, p.id])}
+                  >
+                    <Icon />
+                    <span>{p.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="gp-plant-palette__empty">No plants match "{plantSearch}"</div>
+          )}
           {plants.length > 0 && (
             <div className="gp-plant-selected">
               {plants.map((id, i) => {
