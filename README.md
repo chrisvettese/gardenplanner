@@ -104,12 +104,12 @@ automatically), it just won't have any `images/` folder to draw from.
 
 ## Plant catalog
 
-24 plants so far ([src/plants/catalog.ts](src/plants/catalog.ts), icons
+25 plants so far ([src/plants/catalog.ts](src/plants/catalog.ts), icons
 in [src/plants/icons.tsx](src/plants/icons.tsx)): tomato, pepper, melon,
 watermelon, fig, clementine, raspberry, bean, carrot, celery, onion,
 bunching onion, garlic chives, potato, Genovese basil, Thai basil,
 parsley, rosemary, sunflower, morning glory, mandevilla, heliotrope,
-pelargonium, ice plant. Adding more later is just adding
+pelargonium, carnation, ice plant. Adding more later is just adding
 a catalog entry + icon component.
 
 ## Not in the MVP yet

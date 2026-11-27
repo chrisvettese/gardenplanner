@@ -308,6 +308,37 @@ export function PelargoniumIcon(props: IconProps) {
   );
 }
 
+// A single carnation petal, pointing "up" from the flower's center: a
+// narrow blade ending in a 3-point fringed/serrated tip — that ragged edge
+// (not a smooth round or lobed one) is what reads as a carnation rather
+// than any other flower in the catalog.
+const CARNATION_PETAL = 'M0 0 C -2 -6 -2 -9 -2.2 -10.5 L -0.9 -9 L 0 -11 L 0.9 -9 L 2.2 -10.5 C 2 -9 2 -6 0 0 Z';
+
+export function CarnationIcon(props: IconProps) {
+  const outerAngles = Array.from({ length: 11 }, (_, i) => i * (360 / 11));
+  const innerAngles = Array.from({ length: 9 }, (_, i) => i * (360 / 9) + 18);
+  return (
+    <svg {...svgProps} {...props}>
+      <path d="M16 28C16 24 16 20 16 17" fill="none" stroke="#5a8a6a" strokeWidth="1.6" strokeLinecap="round" />
+      <g stroke="#6a9a7a" strokeWidth="1.3" strokeLinecap="round" fill="none">
+        <path d="M16 24c-1.8 -0.8 -3.4 -2.2 -4.2 -4" />
+        <path d="M16 24c1.8 -0.8 3.4 -2.2 4.2 -4" />
+      </g>
+      <g fill="#c73e66" {...outline}>
+        {outerAngles.map((a) => (
+          <path key={`o${a}`} d={CARNATION_PETAL} transform={`translate(16 17) rotate(${a}) scale(1.05)`} />
+        ))}
+      </g>
+      <g fill="#e0567e" {...outline}>
+        {innerAngles.map((a) => (
+          <path key={`i${a}`} d={CARNATION_PETAL} transform={`translate(16 17) rotate(${a}) scale(0.72)`} />
+        ))}
+      </g>
+      <circle cx="16" cy="17.5" r="1.6" fill="#f2a8c0" />
+    </svg>
+  );
+}
+
 export function ClementineIcon(props: IconProps) {
   return (
     <svg {...svgProps} {...props}>
